@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 import '../App.css'
+import ThemeSwitch from "../components/ThemeSwitch";
 import NavBar from "../components/NavBar";
 
 class Index extends Component {
@@ -10,7 +11,11 @@ class Index extends Component {
   }
 
   render() {
-    return <NavBar />;
+    return(<>
+      <ThemeSwitch/>
+    <NavBar />
+    </>
+    )
   }
 }
 
