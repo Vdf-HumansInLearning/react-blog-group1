@@ -10,9 +10,7 @@ function NavBar() {
   ];
   const navItems = nav.map((navItem) => (
     <li className="nav__item" key={navItem.id}>
-      <a className="nav__link">
-        <Link to={navItem.link}>{navItem.text}</Link>
-      </a>
+      <Link className="nav__link" to={navItem.link}>{navItem.text}</Link>
     </li>
   ));
   return (

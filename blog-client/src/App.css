@@ -58,6 +58,7 @@ nav.nav {
 ul.nav__container {
     display: flex;
     color: var(--secondary-color-font);
+    list-style-type: none;
 }
 
 li.nav__item {
