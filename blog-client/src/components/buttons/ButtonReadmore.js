@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function ButtonReadmore({ articleId }) {
+function ButtonReadmore({ articleId }) {
   return (
     <div className="readmore__container">
       <Link to={`/details/${articleId}`} className="btn-details">
@@ -12,3 +12,5 @@ export default function ButtonReadmore({ articleId }) {
     </div>
   );
 }
+
+export default ButtonReadmore;
