@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ArticleHeader from "../components/ArticleHeader";
-import ContentPreview from "../components/ContentPreview";
+import Content from "../components/Content";
 import ButtonReadmore from "../components/buttons/ButtonReadmore";
 
 class ArticlePreview extends Component {
@@ -26,7 +26,7 @@ class ArticlePreview extends Component {
     return (
       <article>
         <ArticleHeader headerData={this.state.article.headerData} />
-        <ContentPreview content={this.state.article.content} />
+        <Content content={this.state.article.content} />
         <ButtonReadmore articleId={this.state.article.id} />
       </article>
     );
