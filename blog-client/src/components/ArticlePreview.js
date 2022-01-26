@@ -8,14 +8,16 @@ class ArticlePreview extends Component {
     super(props);
     this.state = {
       article: {
-        id: this.props.article.id,
-        title: this.props.article.title,
-        tag: this.props.article.tag,
-        author: this.props.article.author,
-        date: this.props.article.date,
-        imgUrl: this.props.article.imgUrl,
-        saying: this.props.article.saying,
-        content: this.props.article.content,
+        id: props.article.id,
+        headerData: {
+          title: props.article.title,
+          tag: props.article.tag,
+          author: props.article.author,
+          date: props.article.date,
+          imgUrl: props.article.imgUrl,
+        },
+        saying: props.article.saying,
+        content: ["asssjjfjfdjdjsdjdjjdjjds", "jsjdjjdjdjdjfhjejiejenifeif"],
       },
     };
   }
@@ -23,17 +25,9 @@ class ArticlePreview extends Component {
   render() {
     return (
       <article>
-        <ArticleHeader
-          headerData={
-            (this.article.title,
-            this.article.tag,
-            this.article.author,
-            this.article.date,
-            this.article.imgUrl)
-          }
-        />
-        <ContentPreview content={this.article.content} />
-        <ButtonReadmore articleId={this.article.id} />
+        <ArticleHeader headerData={this.state.article.headerData} />
+        <ContentPreview content={this.state.article.content} />
+        <ButtonReadmore articleId={this.state.article.id} />
       </article>
     );
   }

@@ -1,5 +1,4 @@
 import { Component } from "react";
-import { Link } from "react-router-dom";
 import "../App.css";
 import ThemeSwitch from "../components/ThemeSwitch";
 import NavBar from "../components/NavBar";
@@ -35,9 +34,7 @@ class Index extends Component {
   getArticleList() {
     const self = this;
 
-    fetch(
-      `http://localhost:3007/articles?indexStart=${this.indexStart}&indexEnd=${this.indexEnd}`
-    )
+    fetch(`http://localhost:3007/articles?indexStart=0&indexEnd=3`)
       .then(function (response) {
         if (response.status !== 200) {
           console.log(
@@ -50,8 +47,8 @@ class Index extends Component {
         response.json().then(function (data) {
           self.setState({
             articleList: data.articlesList,
-            totalNumberOfArticles: data.numberOfArticles,
           });
+          self.setState({ totalNumberOfArticles: data.numberOfArticles });
         });
       })
       .catch(function (err) {
