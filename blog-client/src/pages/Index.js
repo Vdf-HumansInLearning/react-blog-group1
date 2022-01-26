@@ -5,6 +5,7 @@ import NavBar from "../components/NavBar";
 import ButtonModal from "../components/buttons/ButtonModal";
 import ArticlePreview from "../components/ArticlePreview";
 import Footer from "../components/FooterIndex";
+import AddArticleModal from "../components/AddArticleModal";
 
 class Index extends Component {
   constructor(props) {
@@ -15,10 +16,24 @@ class Index extends Component {
       indexEnd: this.numberOfArticlesPerPage - 1,
 
       totalNumberOfArticles: 0,
-      articleList: []
+      articleList: [],
+      isModalClicked: false
     };
+    this.openModal = this.openModal.bind(this);
     this.getArticleList = this.getArticleList.bind(this);
+    this.hideModal = this.hideModal.bind(this);
   }
+
+
+openModal() {
+  this.setState({isModalClicked: true});
+  console.log(this.state.isModalClicked);
+}
+
+
+hideModal() {
+  this.setState({isModalClicked: false})
+}
 
   // TAKING DATA FROM SERVER
   getArticleList() {
@@ -52,14 +67,20 @@ class Index extends Component {
 
   render() {
     const { articleList } = this.state;
+    const isModalClicked = this.state.isModalClicked
+    let button;
     const articles = articleList.map((article) => (
       <ArticlePreview article={article} key={article.id} />
     ));
+    if(isModalClicked) {
+      button = <AddArticleModal isModalClicked={this.state.isModalClicked} hideModal={this.hideModal}/>
+    }
     return (
       <>
         <ThemeSwitch />
         <NavBar />
-        <ButtonModal />
+        <ButtonModal openModal={this.openModal}/>
+        {button}
         {articles}
         <Footer />
       </>

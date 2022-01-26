@@ -51,15 +51,15 @@ class Article extends Component {
   }
 
   render() {
-    const { article } = this.state;
+    const article = this.state.article;
     return (
       <>
         <ThemeSwitch />
         <NavBar />
-        <ArticleHeader headerData={this.state.article} />
-        <Content content={this.state.article.content[0]} />
-        <Saying saying={this.state.article.saying} />
-        <Content content={this.state.article.content[1]} />
+        <ArticleHeader headerData={article} />
+        <Content content={article.content[0]} />
+        <Saying saying={article.saying} />
+        <Content content={article.content[1]} />
         <FooterDetails />
       </>
     );
