@@ -4,6 +4,7 @@ import ThemeSwitch from "../components/ThemeSwitch";
 import NavBar from "../components/NavBar";
 import ButtonModal from "../components/buttons/ButtonModal";
 import ArticlePreview from "../components/ArticlePreview";
+import Footer from "../components/FooterIndex";
 
 class Index extends Component {
   constructor(props) {
@@ -14,18 +15,7 @@ class Index extends Component {
       indexEnd: this.numberOfArticlesPerPage - 1,
 
       totalNumberOfArticles: 0,
-      articleList: [],
-      article: {
-        articleId: "2465d861-98ad-492b-99c9-ace00cb64204",
-        headerData: {
-          title: "Transilvania",
-          tag: "Asdf",
-          author: "gfdf",
-          date: "21.12.345",
-          imgUrl: "../public/assets/img/bike.jpg",
-        },
-        content: ["asssjjfjfdjdjsdjdjjdjjds", "jsjdjjdjdjdjfhjejiejenifeif"],
-      },
+      articleList: []
     };
     this.getArticleList = this.getArticleList.bind(this);
   }
@@ -71,6 +61,7 @@ class Index extends Component {
         <NavBar />
         <ButtonModal />
         {articles}
+        <Footer />
       </>
     );
   }
