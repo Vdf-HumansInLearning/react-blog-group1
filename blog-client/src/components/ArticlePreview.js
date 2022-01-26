@@ -17,7 +17,7 @@ class ArticlePreview extends Component {
           imgUrl: props.article.imgUrl,
         },
         saying: props.article.saying,
-        content: ["asssjjfjfdjdjsdjdjjdjjds", "jsjdjjdjdjdjfhjejiejenifeif"],
+        content: props.article.content,
       },
     };
   }
