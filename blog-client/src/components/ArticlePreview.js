@@ -17,16 +17,21 @@ class ArticlePreview extends Component {
           imgUrl: props.article.imgUrl,
         },
         saying: props.article.saying,
+        frontContent: props.article.frontContent,
         content: props.article.content,
       },
     };
   }
 
   render() {
+    const { article } = this.state;
+    const contentList = article.frontContent.map((paragraph, index) => {
+      return <Content content={paragraph} key={index} />;
+    });
     return (
       <article>
         <ArticleHeader headerData={this.state.article.headerData} />
-        <Content content={this.state.article.content} />
+        <div className="content__container">{contentList}</div>
         <ButtonReadmore articleId={this.state.article.id} />
       </article>
     );

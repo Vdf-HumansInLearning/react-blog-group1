@@ -1,5 +1,5 @@
 import { Component } from "react";
-import "../App.css"
+import "../App.css";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import ArticleHeader from "../components/ArticleHeader";
@@ -23,7 +23,8 @@ class Article extends Component {
           imgUrl: "",
         },
         saying: "",
-        content: "",
+        frontContent: [],
+        content: [],
       },
     };
   }
@@ -41,7 +42,6 @@ class Article extends Component {
         }
         // Examine the text in the response
         response.json().then(function (data) {
-          console.log(data.content)
           self.setState({ article: data });
         });
       })
@@ -52,14 +52,23 @@ class Article extends Component {
 
   render() {
     const { article } = this.state;
+    let middle = Math.round((article.content.length - 1) / 2);
+    const contentList = article.content.map((paragraph, index) => {
+      if (index === middle) {
+        return [
+          <Saying saying={article.saying} key={index + 1} />,
+          <Content content={paragraph} key={index} />,
+        ];
+      } else {
+        return <Content content={paragraph} key={index} />;
+      }
+    });
     return (
       <>
         <ThemeSwitch />
         <NavBar />
-        <ArticleHeader headerData={this.state.article} />
-        <Content content={this.state.article.content[0]} />
-        <Saying saying={this.state.article.saying} />
-        <Content content={this.state.article.content[1]} />
+        <ArticleHeader headerData={article} />
+        <div className="content__container">{contentList}</div>
         <FooterDetails />
       </>
     );
@@ -70,10 +79,7 @@ const withRouter = (WrappedComponent) => (props) => {
   const params = useParams();
   return (
     <>
-      <WrappedComponent
-        {...props}
-        params={params}
-      />
+      <WrappedComponent {...props} params={params} />
     </>
   );
 };
