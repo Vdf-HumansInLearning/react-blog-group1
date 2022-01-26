@@ -12,19 +12,23 @@ class Index extends Component {
     this.state = {
       numberOfArticlesPerPage: 4,
       indexStart: 0,
-      indexEnd: this.numberOfArticlesPerPage - 1,
+      indexEnd: 0,
 
       totalNumberOfArticles: 0,
-      articleList: []
+      articleList: [],
     };
     this.getArticleList = this.getArticleList.bind(this);
   }
 
   // TAKING DATA FROM SERVER
   getArticleList() {
+    this.setState({ indexEnd: 3 });
+    console.log(this.state.indexEnd);
     const self = this;
 
-    fetch(`http://localhost:3007/articles?indexStart=0&indexEnd=3`)
+    fetch(
+      `http://localhost:3007/articles?indexStart=${this.state.indexStart}&indexEnd=${this.state.indexEnd}`
+    )
       .then(function (response) {
         if (response.status !== 200) {
           console.log(

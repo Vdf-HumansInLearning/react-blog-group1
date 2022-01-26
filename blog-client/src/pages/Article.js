@@ -69,7 +69,10 @@ class Article extends Component {
         <NavBar />
         <ArticleHeader headerData={article} />
         <div className="content__container">{contentList}</div>
-        <FooterDetails />
+        <FooterDetails
+          nextId={this.state.article.nextId}
+          prevId={this.state.article.prevId}
+        />
       </>
     );
   }
