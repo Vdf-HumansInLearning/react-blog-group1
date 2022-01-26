@@ -1,20 +1,20 @@
 import React, { Component } from "react";
+import Index from "../../pages/Index";
+
 import { Link } from "react-router-dom";
 
 class ButtonModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    this.openModal = this.openModal.bind(this);
+
   }
-  openModal() {
-    console.log("ffff");
-  }
+
+
   render() {
     return (
       <div className="add__container">
         <button
-          onClick={this.openModal}
+          onClick={this.props.openModal}
           type="button"
           className="button open-modal fas fa-plus"
         >
