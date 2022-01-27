@@ -197,6 +197,11 @@ button.footer__link {
   color: var(--font-color);
   cursor: pointer;
   display: block;
+  text-decoration: none;
+}
+
+a.footer__link {
+  text-decoration: none;
 }
 
 .readmore__container.margin-bottom {
