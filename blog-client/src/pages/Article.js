@@ -27,11 +27,11 @@ class Article extends Component {
         content: [],
       },
     };
+    this.getOneArticle = this.getOneArticle.bind(this);
   }
-  componentDidMount() {
-    const self = this;
-    const { id } = this.props.params;
 
+  getOneArticle(id) {
+    const self = this;
     fetch("http://localhost:3007/articles/" + id)
       .then(function (response) {
         if (response.status !== 200) {
@@ -48,6 +48,17 @@ class Article extends Component {
       .catch(function (err) {
         console.log("Fetch Error :-S", err);
       });
+  }
+  componentDidMount() {
+    const { id } = this.props.params;
+    this.getOneArticle(id);
+  }
+
+  componentDidUpdate(prevProps) {
+    // compare props:
+    if (this.props.params.id !== prevProps.params.id) {
+      this.getOneArticle(this.props.params.id);
+    }
   }
 
   render() {

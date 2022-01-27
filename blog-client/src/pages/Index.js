@@ -6,15 +6,14 @@ import ButtonModal from "../components/buttons/ButtonModal";
 import ArticlePreview from "../components/ArticlePreview";
 import Footer from "../components/FooterIndex";
 import AddArticleModal from "../components/AddArticleModal";
-import DeleteModal from "../components/DeleteModal";
 
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      numberOfArticlesPerPage: 4,
+      indexSize: 4,
       indexStart: 0,
-      indexEnd: 0,
+      indexEnd: 3,
       totalNumberOfArticles: 0,
       articleList: [],
       isModalClicked: false,
@@ -23,7 +22,8 @@ class Index extends Component {
     this.openModal = this.openModal.bind(this);
     this.getArticleList = this.getArticleList.bind(this);
     this.hideModal = this.hideModal.bind(this);
-  
+    this.loadNextPage = this.loadNextPage.bind(this);
+    this.loadPreviousPage = this.loadPreviousPage.bind(this);
   }
 
   openModal() {
@@ -35,15 +35,14 @@ class Index extends Component {
     this.setState({ isModalClicked: false });
   }
 
- 
   // TAKING DATA FROM SERVER
   getArticleList() {
-    this.setState({ indexEnd: 3 });
+    console.log(this.state.indexStart);
     console.log(this.state.indexEnd);
     const self = this;
 
     fetch(
-      `http://localhost:3007/articles?indexStart=${this.state.indexStart}&indexEnd=3`
+      `http://localhost:3007/articles?indexStart=${this.state.indexStart}&indexEnd=${this.state.indexEnd}`
     )
       .then(function (response) {
         if (response.status !== 200) {
@@ -66,21 +65,49 @@ class Index extends Component {
       });
   }
 
+  loadNextPage() {
+    if (this.state.indexEnd < this.state.totalNumberOfArticles) {
+      this.setState(
+        {
+          indexStart: this.state.indexStart + this.state.indexSize,
+          indexEnd: this.state.indexEnd + this.state.indexSize,
+        },
+        () => this.getArticleList()
+      );
+    }
+  }
+
+  loadPreviousPage() {
+    if (this.state.indexStart !== 0) {
+      this.setState(
+        {
+          indexEnd: this.state.indexEnd - this.state.indexSize,
+          indexStart: this.state.indexStart - this.state.indexSize,
+        },
+        () => this.getArticleList()
+      );
+    }
+  }
+
   componentDidMount() {
     this.getArticleList();
   }
 
   render() {
-    const { articleList } = this.state;
+    let { articleList } = this.state;
     const isModalClicked = this.state.isModalClicked;
-   
-    const articles = articleList.map((article) => (
-      <ArticlePreview article={article} key={article.id} openDeleteModal={this.openDeleteModal} getArticleList={this.getArticleList}/>
 
+    let articles = articleList.map((article) => (
+      <ArticlePreview
+        article={article}
+        key={article.id}
+        openDeleteModal={this.openDeleteModal}
+        getArticleList={this.getArticleList}
+      />
     ));
 
     let addArticleModal;
-   
+
     if (isModalClicked) {
       addArticleModal = (
         <AddArticleModal
@@ -90,8 +117,6 @@ class Index extends Component {
       );
     }
 
-    
-    
     return (
       <>
         <ThemeSwitch />
@@ -99,7 +124,16 @@ class Index extends Component {
         <ButtonModal openModal={this.openModal} />
         {addArticleModal}
         {articles}
-        <Footer />
+        <Footer
+          loadNextPage={this.loadNextPage}
+          loadPreviousPage={this.loadPreviousPage}
+          indexStart={this.state.indexStart > 0 ? this.state.indexStart : null}
+          indexEnd={
+            this.state.indexEnd < this.state.totalNumberOfArticles
+              ? this.state.indexEnd
+              : null
+          }
+        />
       </>
     );
   }
