@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 
 function FooterDetails({ nextId, prevId }) {
   return (
-    <footer className="footer-details">
+    <footer
+      className={"footer-details " + (nextId && !prevId ? "footer-next" : "")}
+    >
       {nextId && prevId ? (
         [
           <Link to={`/details/${prevId}`} className="footer__link" key="1">
