@@ -514,7 +514,7 @@ button.to-homepage {
 }
 
 .delete-modal-alert {
-    display: none;
+    /* display: none; */
     position: fixed;
     z-index: 1;
     left: 0;
