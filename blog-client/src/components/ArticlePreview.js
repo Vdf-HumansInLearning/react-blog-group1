@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ArticleHeader from "../components/ArticleHeader";
 import Content from "../components/Content";
 import ButtonReadmore from "../components/buttons/ButtonReadmore";
+import DeleteModal from "../components/DeleteModal";
 
 class ArticlePreview extends Component {
   constructor(props) {
@@ -19,20 +20,53 @@ class ArticlePreview extends Component {
         saying: props.article.saying,
         frontContent: props.article.frontContent,
         content: props.article.content,
+        isDeleteModalClicked: false,
       },
     };
+    this.deleteArticle = this.deleteArticle.bind(this);
+    this.openDeleteModal = this.openDeleteModal.bind(this);
+    this.hideDeleteModal = this.hideDeleteModal.bind(this);
   }
 
+  openDeleteModal(id) {
+    this.setState({isDeleteModalClicked: true});
+  }
+
+  hideDeleteModal() {
+    this.setState({ isDeleteModalClicked: false });
+  }
+
+
+  deleteArticle() {
+    fetch(`http://localhost:3007/articles/${this.state.article.id}`, 
+    { method: 'DELETE' })
+        .then(() => {this.setState({ status: 'Delete successful', isDeleteModalClicked: false})
+        this.props.getArticleList()}  
+        );   
+}
+
   render() {
+    const isDeleteModalClicked = this.state.isDeleteModalClicked;
+    let deleteArticleModal;
+    if (isDeleteModalClicked) {
+      deleteArticleModal = (
+        <DeleteModal
+        isDeleteModalClicked={this.state.isDeleteModalClicked}
+          hideDeleteModal={this.hideDeleteModal} deleteArticle={this.deleteArticle} 
+        />
+      );
+    }
+
     const { article } = this.state;
     const contentList = article.frontContent.map((paragraph, index) => {
       return <Content content={paragraph} key={index} />;
     });
     return (
       <article>
-        <ArticleHeader headerData={this.state.article.headerData} />
+        <ArticleHeader headerData={this.state.article.headerData} openDeleteModal={this.openDeleteModal}/>
         <div className="content__container">{contentList}</div>
         <ButtonReadmore articleId={this.state.article.id} />
+        {deleteArticleModal}
       </article>
     );
   }

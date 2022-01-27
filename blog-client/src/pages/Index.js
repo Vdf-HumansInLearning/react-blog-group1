@@ -6,6 +6,7 @@ import ButtonModal from "../components/buttons/ButtonModal";
 import ArticlePreview from "../components/ArticlePreview";
 import Footer from "../components/FooterIndex";
 import AddArticleModal from "../components/AddArticleModal";
+import DeleteModal from "../components/DeleteModal";
 
 class Index extends Component {
   constructor(props) {
@@ -14,14 +15,15 @@ class Index extends Component {
       numberOfArticlesPerPage: 4,
       indexStart: 0,
       indexEnd: 0,
-
       totalNumberOfArticles: 0,
       articleList: [],
       isModalClicked: false,
+      // isDeleteModalClicked: false,
     };
     this.openModal = this.openModal.bind(this);
     this.getArticleList = this.getArticleList.bind(this);
     this.hideModal = this.hideModal.bind(this);
+  
   }
 
   openModal() {
@@ -33,6 +35,7 @@ class Index extends Component {
     this.setState({ isModalClicked: false });
   }
 
+ 
   // TAKING DATA FROM SERVER
   getArticleList() {
     this.setState({ indexEnd: 3 });
@@ -40,7 +43,7 @@ class Index extends Component {
     const self = this;
 
     fetch(
-      `http://localhost:3007/articles?indexStart=${this.state.indexStart}&indexEnd=${this.state.indexEnd}`
+      `http://localhost:3007/articles?indexStart=${this.state.indexStart}&indexEnd=3`
     )
       .then(function (response) {
         if (response.status !== 200) {
@@ -70,24 +73,31 @@ class Index extends Component {
   render() {
     const { articleList } = this.state;
     const isModalClicked = this.state.isModalClicked;
-    let button;
+   
     const articles = articleList.map((article) => (
-      <ArticlePreview article={article} key={article.id} />
+      <ArticlePreview article={article} key={article.id} openDeleteModal={this.openDeleteModal} getArticleList={this.getArticleList}/>
+
     ));
+
+    let addArticleModal;
+   
     if (isModalClicked) {
-      button = (
+      addArticleModal = (
         <AddArticleModal
           isModalClicked={this.state.isModalClicked}
           hideModal={this.hideModal}
         />
       );
     }
+
+    
+    
     return (
       <>
         <ThemeSwitch />
         <NavBar />
         <ButtonModal openModal={this.openModal} />
-        {button}
+        {addArticleModal}
         {articles}
         <Footer />
       </>
