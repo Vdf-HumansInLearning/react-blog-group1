@@ -401,6 +401,10 @@ button.button.button-edit-modal {
     position: absolute;
 }
 
+#error-box {
+    background-image: url('/public/assets/img/Valley-light.jpg');
+}
+
 .error-info {
     text-align: center;
     margin-top: 50px;
@@ -676,6 +680,7 @@ input#date {
         margin-left: 130px;
         margin-right: 130px;
         margin-bottom: 60px;
+        font-weight: 300;
     }
     ul.info__container {
         margin-bottom: 80px;
