@@ -66,7 +66,7 @@ class Index extends Component {
   }
 
   loadNextPage() {
-    if (this.state.indexEnd < this.state.totalNumberOfArticles) {
+    if (this.state.indexEnd < this.state.totalNumberOfArticles - 1) {
       this.setState(
         {
           indexStart: this.state.indexStart + this.state.indexSize,
@@ -129,7 +129,7 @@ class Index extends Component {
           loadPreviousPage={this.loadPreviousPage}
           indexStart={this.state.indexStart > 0 ? this.state.indexStart : null}
           indexEnd={
-            this.state.indexEnd < this.state.totalNumberOfArticles
+            this.state.indexEnd < this.state.totalNumberOfArticles - 1
               ? this.state.indexEnd
               : null
           }
