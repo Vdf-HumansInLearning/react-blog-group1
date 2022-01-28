@@ -40,11 +40,8 @@ class Index extends Component {
     this.setState({ isEditModalClicked: true });
   }
 
-
   // TAKING DATA FROM SERVER
   getArticleList() {
-    console.log(this.state.indexStart);
-    console.log(this.state.indexEnd);
     const self = this;
 
     fetch(
@@ -70,7 +67,6 @@ class Index extends Component {
         console.log("Fetch Error :-S", err);
       });
   }
-
 
   loadNextPage() {
     if (this.state.indexEnd < this.state.totalNumberOfArticles - 1) {
