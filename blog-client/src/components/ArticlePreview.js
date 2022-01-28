@@ -42,6 +42,9 @@ class ArticlePreview extends Component {
         status: "Delete successful",
         isDeleteModalClicked: false,
       });
+      if (this.props.totalNumberOfArticles % this.props.indexSize === 1) {
+        this.props.loadPreviousPage();
+      }
       this.props.getArticleList();
     });
   }

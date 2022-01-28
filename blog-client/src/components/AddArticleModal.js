@@ -61,7 +61,7 @@ class AddArticleModal extends Component {
       content: content,
     };
 
-    if (this.props.articleToEdit.id === null) {
+    if (this.props.articleToEdit === null) {
       if (
         this.state.title &&
         this.state.tag &&
@@ -105,8 +105,9 @@ class AddArticleModal extends Component {
           // Examine the text in the response
           response.json().then(function (data) {
             self.resetForm();
-            self.props.getArticleList();
             self.props.hideModal();
+            <Toast />;
+            self.props.getArticleList();
           });
         })
         .catch(function (err) {
@@ -148,7 +149,7 @@ class AddArticleModal extends Component {
         date: this.props.articleToEdit.date,
         imgUrl: this.props.articleToEdit.imgUrl,
         saying: this.props.articleToEdit.saying,
-        content: this.props.articleToEdit.content.join(" "),
+        content: this.props.articleToEdit.content.join("\n"),
       });
   }
 

@@ -1,6 +1,5 @@
 import { Component } from "react";
 import "../App.css";
-import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import ArticleHeader from "../components/ArticleHeader";
 import NavBar from "../components/NavBar";
@@ -78,7 +77,7 @@ class Article extends Component {
       <>
         <ThemeSwitch />
         <NavBar />
-        <ArticleHeader article={article} />
+        <ArticleHeader article={article} isArticleRoute={true} />
         <div className="content__container">{contentList}</div>
         <FooterDetails
           nextId={this.state.article.nextId}

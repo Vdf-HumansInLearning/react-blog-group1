@@ -1,6 +1,11 @@
 import React from "react";
 
-function ArticleHeader({ article, openDeleteModal, openEditModal }) {
+function ArticleHeader({
+  article,
+  openDeleteModal,
+  openEditModal,
+  isArticleRoute,
+}) {
   return (
     <div>
       <h2 className="title">{article.title}</h2>
@@ -12,22 +17,24 @@ function ArticleHeader({ article, openDeleteModal, openEditModal }) {
         </li>
         <li className="info__item">{article.date}</li>
       </ul>
-      <div className="actions__container">
-        <button
-          type="button"
-          className="actions__btn border"
-          onClick={() => openEditModal(article)}
-        >
-          Edit
-        </button>
-        <button
-          type="button"
-          className="actions__btn"
-          onClick={() => openDeleteModal(article.id)}
-        >
-          Delete
-        </button>
-      </div>
+      {isArticleRoute ? null : (
+        <div className="actions__container">
+          <button
+            type="button"
+            className="actions__btn border"
+            onClick={() => openEditModal(article)}
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            className="actions__btn"
+            onClick={() => openDeleteModal(article.id)}
+          >
+            Delete
+          </button>
+        </div>
+      )}
       <img src={article.imgUrl} alt="figure" />
     </div>
   );

@@ -12,11 +12,12 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+        <Route path="*" element={<NotFound />} />
+
         <Route path="/" element={<Index />} />
         <Route path="/details" element={<Article />}>
           <Route path=":id" element={<Article />} />
         </Route>
-        <Route path="/not-found" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

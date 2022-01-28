@@ -115,6 +115,9 @@ class Index extends Component {
         getArticleList={this.getArticleList}
         openEditModal={this.openEditModal}
         editArticle={this.editArticle}
+        totalNumberOfArticles={this.state.totalNumberOfArticles}
+        indexSize={this.state.indexSize}
+        loadPreviousPage={this.loadPreviousPage}
       />
     ));
 
