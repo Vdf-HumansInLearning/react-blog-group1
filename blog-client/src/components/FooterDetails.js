@@ -7,7 +7,7 @@ function FooterDetails({ nextId, prevId }) {
       className={"footer-details " + (nextId && !prevId ? "footer-next" : "")}
     >
       {nextId && prevId ? (
-        [
+        <>
           <Link
             to={`/details/${prevId}`}
             className="footer__link"
@@ -16,7 +16,7 @@ function FooterDetails({ nextId, prevId }) {
             <button type="button" className="footer__link">
               previous article
             </button>
-          </Link>,
+          </Link>
           <Link
             to={`/details/${nextId}`}
             className="footer__link footer__link--next"
@@ -25,8 +25,8 @@ function FooterDetails({ nextId, prevId }) {
             <button type="button" className="footer__link footer__link--next">
               next article
             </button>
-          </Link>,
-        ]
+          </Link>
+        </>
       ) : prevId ? (
         <Link to={`/details/${prevId}`} className="footer__link">
           <button type="button" className="footer__link">

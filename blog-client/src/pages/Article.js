@@ -37,6 +37,7 @@ class Article extends Component {
           console.log(
             "Looks like there was a problem. Status Code: " + response.status
           );
+          //redirect to 404
           return;
         }
         // Examine the text in the response

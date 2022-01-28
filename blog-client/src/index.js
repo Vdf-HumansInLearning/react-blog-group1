@@ -13,7 +13,6 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<NotFound />} />
-
         <Route path="/" element={<Index />} />
         <Route path="/details" element={<Article />}>
           <Route path=":id" element={<Article />} />

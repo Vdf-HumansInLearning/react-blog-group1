@@ -8,22 +8,22 @@ function Footer({ loadNextPage, loadPreviousPage, indexStart, indexEnd }) {
       }
     >
       {indexStart && indexEnd ? (
-        [
+        <>
           <button
             onClick={loadPreviousPage}
             className="footer__link footer__link--previous"
             key={"button-prev"}
           >
             previous
-          </button>,
+          </button>
           <button
             onClick={loadNextPage}
             className="footer__link footer__link--next"
             key={"button-next"}
           >
             next
-          </button>,
-        ]
+          </button>
+        </>
       ) : indexStart ? (
         <button
           onClick={loadPreviousPage}
