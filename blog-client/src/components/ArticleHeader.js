@@ -1,6 +1,6 @@
 import React from "react";
 
-function ArticleHeader({headerData, openDeleteModal}) {
+function ArticleHeader({ headerData, openDeleteModal, openEditModal }) {
     return (
         <div>
             <h2 className="title">
@@ -21,7 +21,7 @@ function ArticleHeader({headerData, openDeleteModal}) {
                 </li>
             </ul>
             <div className="actions__container">
-                <button type="button" className="actions__btn border">Edit</button>
+                <button type="button" className="actions__btn border" onClick={() => openEditModal(headerData.id)}>Edit</button>
                 <button type="button" className="actions__btn" onClick={() => openDeleteModal(headerData.id)}>Delete</button>
             </div>
             <img src={headerData.imgUrl} alt="figure" />

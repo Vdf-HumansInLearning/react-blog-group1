@@ -17,13 +17,14 @@ class Index extends Component {
       totalNumberOfArticles: 0,
       articleList: [],
       isModalClicked: false,
-      // isDeleteModalClicked: false,
+      isEditModalClicked: false,
     };
     this.openModal = this.openModal.bind(this);
     this.getArticleList = this.getArticleList.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.loadNextPage = this.loadNextPage.bind(this);
     this.loadPreviousPage = this.loadPreviousPage.bind(this);
+    this.openEditModal = this.openEditModal.bind(this);
   }
 
   openModal() {
@@ -32,8 +33,13 @@ class Index extends Component {
   }
 
   hideModal() {
-    this.setState({ isModalClicked: false });
+    this.setState({ isModalClicked: false, isEditModalClicked: false });
   }
+
+  openEditModal(article) {
+    this.setState({ isEditModalClicked: true });
+  }
+
 
   // TAKING DATA FROM SERVER
   getArticleList() {
@@ -65,8 +71,9 @@ class Index extends Component {
       });
   }
 
+
   loadNextPage() {
-    if (this.state.indexEnd < this.state.totalNumberOfArticles) {
+    if (this.state.indexEnd < this.state.totalNumberOfArticles - 1) {
       this.setState(
         {
           indexStart: this.state.indexStart + this.state.indexSize,
@@ -96,6 +103,7 @@ class Index extends Component {
   render() {
     let { articleList } = this.state;
     const isModalClicked = this.state.isModalClicked;
+    const isEditModalClicked = this.state.isEditModalClicked;
 
     let articles = articleList.map((article) => (
       <ArticlePreview
@@ -103,16 +111,19 @@ class Index extends Component {
         key={article.id}
         openDeleteModal={this.openDeleteModal}
         getArticleList={this.getArticleList}
+        openEditModal={this.openEditModal}
       />
     ));
 
     let addArticleModal;
 
-    if (isModalClicked) {
+    if (isModalClicked || isEditModalClicked) {
       addArticleModal = (
         <AddArticleModal
           isModalClicked={this.state.isModalClicked}
           hideModal={this.hideModal}
+          isEditModalClicked={this.state.isEditModalClicked}
+          getArticleList={this.getArticleList}
         />
       );
     }
@@ -129,7 +140,7 @@ class Index extends Component {
           loadPreviousPage={this.loadPreviousPage}
           indexStart={this.state.indexStart > 0 ? this.state.indexStart : null}
           indexEnd={
-            this.state.indexEnd < this.state.totalNumberOfArticles
+            this.state.indexEnd < this.state.totalNumberOfArticles - 1
               ? this.state.indexEnd
               : null
           }

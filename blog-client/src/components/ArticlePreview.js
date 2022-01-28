@@ -29,7 +29,7 @@ class ArticlePreview extends Component {
   }
 
   openDeleteModal(id) {
-    this.setState({isDeleteModalClicked: true});
+    this.setState({ isDeleteModalClicked: true });
   }
 
   hideDeleteModal() {
@@ -38,12 +38,14 @@ class ArticlePreview extends Component {
 
 
   deleteArticle() {
-    fetch(`http://localhost:3007/articles/${this.state.article.id}`, 
-    { method: 'DELETE' })
-        .then(() => {this.setState({ status: 'Delete successful', isDeleteModalClicked: false})
-        this.props.getArticleList()}  
-        );   
-}
+    fetch(`http://localhost:3007/articles/${this.state.article.id}`,
+      { method: 'DELETE' })
+      .then(() => {
+        this.setState({ status: 'Delete successful', isDeleteModalClicked: false })
+        this.props.getArticleList()
+      }
+      );
+  }
 
   render() {
     const isDeleteModalClicked = this.state.isDeleteModalClicked;
@@ -51,8 +53,8 @@ class ArticlePreview extends Component {
     if (isDeleteModalClicked) {
       deleteArticleModal = (
         <DeleteModal
-        isDeleteModalClicked={this.state.isDeleteModalClicked}
-          hideDeleteModal={this.hideDeleteModal} deleteArticle={this.deleteArticle} 
+          isDeleteModalClicked={this.state.isDeleteModalClicked}
+          hideDeleteModal={this.hideDeleteModal} deleteArticle={this.deleteArticle}
         />
       );
     }
@@ -63,7 +65,7 @@ class ArticlePreview extends Component {
     });
     return (
       <article>
-        <ArticleHeader headerData={this.state.article.headerData} openDeleteModal={this.openDeleteModal}/>
+        <ArticleHeader headerData={this.state.article.headerData} openDeleteModal={this.openDeleteModal} openEditModal={this.props.openEditModal} />
         <div className="content__container">{contentList}</div>
         <ButtonReadmore articleId={this.state.article.id} />
         {deleteArticleModal}
