@@ -78,7 +78,7 @@ class Article extends Component {
       <>
         <ThemeSwitch />
         <NavBar />
-        <ArticleHeader headerData={article} />
+        <ArticleHeader article={article} />
         <div className="content__container">{contentList}</div>
         <FooterDetails
           nextId={this.state.article.nextId}

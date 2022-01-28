@@ -10,13 +10,11 @@ class ArticlePreview extends Component {
     this.state = {
       article: {
         id: props.article.id,
-        headerData: {
-          title: props.article.title,
-          tag: props.article.tag,
-          author: props.article.author,
-          date: props.article.date,
-          imgUrl: props.article.imgUrl,
-        },
+        title: props.article.title,
+        tag: props.article.tag,
+        author: props.article.author,
+        date: props.article.date,
+        imgUrl: props.article.imgUrl,
         saying: props.article.saying,
         frontContent: props.article.frontContent,
         content: props.article.content,
@@ -36,15 +34,16 @@ class ArticlePreview extends Component {
     this.setState({ isDeleteModalClicked: false });
   }
 
-
   deleteArticle() {
-    fetch(`http://localhost:3007/articles/${this.state.article.id}`,
-      { method: 'DELETE' })
-      .then(() => {
-        this.setState({ status: 'Delete successful', isDeleteModalClicked: false })
-        this.props.getArticleList()
-      }
-      );
+    fetch(`http://localhost:3007/articles/${this.state.article.id}`, {
+      method: "DELETE",
+    }).then(() => {
+      this.setState({
+        status: "Delete successful",
+        isDeleteModalClicked: false,
+      });
+      this.props.getArticleList();
+    });
   }
 
   render() {
@@ -54,7 +53,8 @@ class ArticlePreview extends Component {
       deleteArticleModal = (
         <DeleteModal
           isDeleteModalClicked={this.state.isDeleteModalClicked}
-          hideDeleteModal={this.hideDeleteModal} deleteArticle={this.deleteArticle}
+          hideDeleteModal={this.hideDeleteModal}
+          deleteArticle={this.deleteArticle}
         />
       );
     }
@@ -65,7 +65,12 @@ class ArticlePreview extends Component {
     });
     return (
       <article>
-        <ArticleHeader headerData={this.state.article.headerData} openDeleteModal={this.openDeleteModal} openEditModal={this.props.openEditModal} />
+        <ArticleHeader
+          article={this.state.article}
+          openDeleteModal={this.openDeleteModal}
+          openEditModal={this.props.openEditModal}
+          editArticle={this.editArticle}
+        />
         <div className="content__container">{contentList}</div>
         <ButtonReadmore articleId={this.state.article.id} />
         {deleteArticleModal}

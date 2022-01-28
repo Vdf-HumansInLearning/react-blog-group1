@@ -17,7 +17,7 @@ class AddArticleModal extends Component {
       isModalClicked: props.isModalClicked,
       isEditModalClicked: props.isEditModalClicked,
     };
-    this.addArticle = this.addArticle.bind(this);
+    this.addEditArticle = this.addEditArticle.bind(this);
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
     this.handleChangeTag = this.handleChangeTag.bind(this);
     this.handleChangeAuthor = this.handleChangeAuthor.bind(this);
@@ -25,9 +25,25 @@ class AddArticleModal extends Component {
     this.handleChangeImgUrl = this.handleChangeImgUrl.bind(this);
     this.handleChangeSaying = this.handleChangeSaying.bind(this);
     this.handleChangeContent = this.handleChangeContent.bind(this);
+    this.resetForm = this.resetForm.bind(this);
   }
 
-  addArticle() {
+  resetForm() {
+    this.setState({
+      ...this.state,
+      id: null,
+      title: "",
+      tag: "",
+      author: "",
+      date: "",
+      imgUrl: "",
+      saying: "",
+      frontContent: [],
+      content: "",
+    });
+  }
+
+  addEditArticle() {
     const self = this;
     let content = this.state.content.split(/\r?\n/);
     let frontContent = [content[0]];
@@ -45,7 +61,7 @@ class AddArticleModal extends Component {
       content: content,
     };
 
-    if (this.state.id === null) {
+    if (this.props.articleToEdit.id === null) {
       if (
         this.state.title &&
         this.state.tag &&
@@ -65,7 +81,7 @@ class AddArticleModal extends Component {
         })
           .then(function (response) {
             response.json().then(function (data) {
-              //self.resetForm();
+              self.resetForm();
               self.props.hideModal();
               <Toast />;
               self.props.getArticleList();
@@ -75,27 +91,28 @@ class AddArticleModal extends Component {
             console.log("Fetch Error :-S", err);
           });
       } else {
+        console.log("Please complete all fields");
       }
+    } else {
+      fetch("http://localhost:3007/articles/" + this.props.articleToEdit.id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(obj),
+      })
+        .then(function (response) {
+          // Examine the text in the response
+          response.json().then(function (data) {
+            self.resetForm();
+            self.props.getArticleList();
+            self.props.hideModal();
+          });
+        })
+        .catch(function (err) {
+          console.log("Fetch Error :-S", err);
+        });
     }
-    // else {
-    //     fetch("http://localhost:4000/dogs/" + this.state.dogsId, {
-    //         method: "PUT",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(obj),
-    //     })
-    //         .then(function (response) {
-    //             // Examine the text in the response
-    //             response.json().then(function (data) {
-    //                 self.resetForm();
-    //                 self.getDogs();
-    //             });
-    //         })
-    //         .catch(function (err) {
-    //             console.log("Fetch Error :-S", err);
-    //         });
-    // }
   }
 
   handleChangeTitle(event) {
@@ -118,6 +135,21 @@ class AddArticleModal extends Component {
   }
   handleChangeContent(event) {
     this.setState({ content: event.target.value });
+  }
+
+  componentDidMount() {
+    this.resetForm();
+    if (this.props.articleToEdit)
+      this.setState({
+        ...this.state,
+        title: this.props.articleToEdit.title,
+        tag: this.props.articleToEdit.tag,
+        author: this.props.articleToEdit.author,
+        date: this.props.articleToEdit.date,
+        imgUrl: this.props.articleToEdit.imgUrl,
+        saying: this.props.articleToEdit.saying,
+        content: this.props.articleToEdit.content.join(" "),
+      });
   }
 
   render() {
@@ -199,12 +231,16 @@ class AddArticleModal extends Component {
                   <button
                     type="button"
                     className="button button--pink"
-                    onClick={this.addArticle}
+                    onClick={this.addEditArticle}
                   >
                     Save
                   </button>
                 ) : (
-                  <button type="button" className="button button--pink">
+                  <button
+                    onClick={this.addEditArticle}
+                    type="button"
+                    className="button button--pink"
+                  >
                     Edit
                   </button>
                 )}

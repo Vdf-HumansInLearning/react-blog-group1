@@ -16,6 +16,7 @@ class Index extends Component {
       indexEnd: 3,
       totalNumberOfArticles: 0,
       articleList: [],
+      articleToEdit: null,
       isModalClicked: false,
       isEditModalClicked: false,
     };
@@ -33,11 +34,16 @@ class Index extends Component {
   }
 
   hideModal() {
-    this.setState({ isModalClicked: false, isEditModalClicked: false });
+    this.setState({
+      isModalClicked: false,
+      isEditModalClicked: false,
+      articleToEdit: null,
+    });
   }
 
   openEditModal(article) {
-    this.setState({ isEditModalClicked: true });
+    console.log(article);
+    this.setState({ isEditModalClicked: true, articleToEdit: article });
   }
 
   // TAKING DATA FROM SERVER
@@ -108,6 +114,7 @@ class Index extends Component {
         openDeleteModal={this.openDeleteModal}
         getArticleList={this.getArticleList}
         openEditModal={this.openEditModal}
+        editArticle={this.editArticle}
       />
     ));
 
@@ -120,6 +127,7 @@ class Index extends Component {
           hideModal={this.hideModal}
           isEditModalClicked={this.state.isEditModalClicked}
           getArticleList={this.getArticleList}
+          articleToEdit={this.state.articleToEdit}
         />
       );
     }
