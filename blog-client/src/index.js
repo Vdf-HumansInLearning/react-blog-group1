@@ -7,10 +7,13 @@ import reportWebVitals from "./reportWebVitals";
 import Article from "./pages/Article";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from "./components/ScrollToTop";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+      <ScrollToTop />
+
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Index />} />
