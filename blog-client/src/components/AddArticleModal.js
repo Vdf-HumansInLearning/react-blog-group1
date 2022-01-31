@@ -84,7 +84,7 @@ class AddArticleModal extends Component {
               self.resetForm();
               self.props.hideModal();
               self.props.getArticleList();
-              self.props.showToast();
+              self.props.showToast('Article added successfully!');
             });
           })
           .catch(function (err) {
@@ -106,7 +106,6 @@ class AddArticleModal extends Component {
           response.json().then(function (data) {
             self.resetForm();
             self.props.hideModal();
-            // <Toast />;
             self.props.getArticleList();
           });
         })

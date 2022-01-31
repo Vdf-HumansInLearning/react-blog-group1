@@ -1,10 +1,10 @@
 import React from "react";
 
-function Toast({isToastShown}) {
+function Toast({isToastShown, toastContent}) {
   if(isToastShown) {
   return (
     <div className="alert alert-success" role="alert"> 
-    Article added successfully!
+      {toastContent}
     </div>
   )
   } else {
