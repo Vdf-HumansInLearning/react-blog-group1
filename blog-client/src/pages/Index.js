@@ -6,6 +6,7 @@ import ButtonModal from "../components/buttons/ButtonModal";
 import ArticlePreview from "../components/ArticlePreview";
 import Footer from "../components/FooterIndex";
 import AddArticleModal from "../components/AddArticleModal";
+import Toast from "../components/Toast";
 
 class Index extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class Index extends Component {
       articleToEdit: null,
       isModalClicked: false,
       isEditModalClicked: false,
+      isToastShown: false,
     };
     this.openModal = this.openModal.bind(this);
     this.getArticleList = this.getArticleList.bind(this);
@@ -26,6 +28,7 @@ class Index extends Component {
     this.loadNextPage = this.loadNextPage.bind(this);
     this.loadPreviousPage = this.loadPreviousPage.bind(this);
     this.openEditModal = this.openEditModal.bind(this);
+    this.showToast = this.showToast.bind(this);
   }
 
   openModal() {
@@ -44,6 +47,14 @@ class Index extends Component {
   openEditModal(article) {
     console.log(article);
     this.setState({ isEditModalClicked: true, articleToEdit: article });
+  }
+
+  showToast() {
+    this.setState({isToastShown: true});
+    setTimeout(
+      () =>  this.setState({isToastShown: false}), 
+      3000
+    );
   }
 
   // TAKING DATA FROM SERVER
@@ -131,12 +142,14 @@ class Index extends Component {
           isEditModalClicked={this.state.isEditModalClicked}
           getArticleList={this.getArticleList}
           articleToEdit={this.state.articleToEdit}
+          showToast={this.showToast}
         />
       );
     }
 
     return (
       <>
+      <Toast isToastShown={this.state.isToastShown}/>
         <ThemeSwitch />
         <NavBar />
         <ButtonModal openModal={this.openModal} />

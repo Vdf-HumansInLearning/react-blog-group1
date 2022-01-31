@@ -1,5 +1,5 @@
 import { Component } from "react";
-import Toast from "./Toast";
+import Toast from "../components/Toast";
 
 class AddArticleModal extends Component {
   constructor(props) {
@@ -83,8 +83,8 @@ class AddArticleModal extends Component {
             response.json().then(function (data) {
               self.resetForm();
               self.props.hideModal();
-              <Toast />;
               self.props.getArticleList();
+              self.props.showToast();
             });
           })
           .catch(function (err) {
@@ -106,7 +106,7 @@ class AddArticleModal extends Component {
           response.json().then(function (data) {
             self.resetForm();
             self.props.hideModal();
-            <Toast />;
+            // <Toast />;
             self.props.getArticleList();
           });
         })
@@ -154,13 +154,16 @@ class AddArticleModal extends Component {
   }
 
   render() {
+   
     if (this.state.isModalClicked || this.state.isEditModalClicked) {
       return (
         <div className="modal__overlay">
+          
           <div className="add-modal">
             <div className="modal__content">
               <h2 className="title modal-title">Add/Edit Article</h2>
               <div className="inputs__container">
+              <Toast />
                 <input
                   value={this.state.title}
                   onChange={this.handleChangeTitle}

@@ -3,6 +3,7 @@ import ArticleHeader from "../components/ArticleHeader";
 import Content from "../components/Content";
 import ButtonReadmore from "../components/buttons/ButtonReadmore";
 import DeleteModal from "../components/DeleteModal";
+import Toast from "./Toast";
 
 class ArticlePreview extends Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class ArticlePreview extends Component {
         status: "Delete successful",
         isDeleteModalClicked: false,
       });
+      <Toast content={'Article deleted successfully!'}/>
       if (this.props.totalNumberOfArticles % this.props.indexSize === 1) {
         this.props.loadPreviousPage();
       }
