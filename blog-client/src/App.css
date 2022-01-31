@@ -404,10 +404,15 @@ button.button.button-edit-modal {
     height: calc(100vh - 304px);
     flex-direction: column;
     background-position: center;
-    position: relative;
+    position: absolute;
+    left: 0;
 }
 
-#error-box {
+.dark-img {
+    background-image: url("/public/assets/img/Valley-dark.jpg");
+}
+
+.light-img {
     background-image: url("/public/assets/img/Valley-light.jpg");
 }
 
@@ -606,7 +611,7 @@ input#date {
     justify-content: end;
 }
 
-@media (max-width: 768px) {
+@media(max-width: 768px) {
     #loader {
         position: absolute;
         left: 91%;
@@ -655,7 +660,7 @@ input#date {
     }
 }
 
-@media (max-width: 425px) {
+@media(max-width: 425px) {
     .theme-switch {
         margin-right: 61px;
     }
