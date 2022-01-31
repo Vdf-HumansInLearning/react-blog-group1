@@ -47,7 +47,7 @@ app.post("/articles", (req, res) => {
   let content = req.body.content;
   let frontContent = req.body.frontContent;
 
-  articlesList.push({
+  articlesList.unshift({
     id: uuidv4(),
     title: title,
     tag: tag,
