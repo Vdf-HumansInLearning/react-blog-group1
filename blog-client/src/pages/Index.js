@@ -152,7 +152,9 @@ class Index extends Component {
       <>
         <Toast
           isToastShown={this.state.isToastShown}
+          // isToastShown={true}
           toastContent={this.state.toastContent}
+          // toastContent={'article added'}
         />
         <ThemeSwitch />
         <NavBar />

@@ -39,7 +39,8 @@ body {
 }
 
 .alert-success {
-    display: block;
+    display: flex;
+    justify-content: space-evenly;
     width: 300px;
     margin: 0 auto;
     text-align: center;
@@ -681,6 +682,88 @@ small.textarea-small {
     position: absolute;
     left: 890px;
     font-size: 18px;
+}
+
+.bee-container {
+    height: 20px;
+    width: 33px;
+    border: 1px solid black;
+    border-radius: 50% / 60%;
+    background-color: #ffeb3b;
+    background: linear-gradient( to left, #ffeb3b 55%, black 55%, black 65%, #ffeb3b 65%, #ffeb3b 80%, black 80%, black 90%, #ffeb3b 90%);
+    box-shadow: inset -1px -2px #ffb300;
+    position: relative;
+}
+
+.bee-container:before {
+    width: 0;
+    height: 0;
+    border-right: 10px solid black;
+    border-left: 20px solid transparent;
+    border-top: 1px solid transparent;
+    border-bottom: 7px solid transparent;
+    left: -30px;
+    top: calc(50% - 4px);
+    content: "";
+    position: absolute;
+}
+
+.eye {
+    height: 5px;
+    width: 4px;
+    border-radius: 50%;
+    background-color: black;
+    position: absolute;
+    top: 18%;
+    left: 73%;
+}
+
+.left {
+    left: 59%;
+}
+
+.eye:after {
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: 65%;
+    height: 2px;
+    width: 2px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.mouth {
+    width: 5px;
+    height: 3px;
+    background-color: #f06292;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    position: absolute;
+    top: 48%;
+    left: 65%;
+}
+
+.wing {
+    border: 1px solid black;
+    height: 10px;
+    width: 10px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    top: -11px;
+    position: absolute;
+    background-color: #90caf9;
+}
+
+.left-wing {
+    left: 12%;
+    transform: rotate(15deg);
+}
+
+.right-wing {
+    left: 38%;
+    transform: rotate(87deg);
 }
 
 @media(max-width: 768px) {

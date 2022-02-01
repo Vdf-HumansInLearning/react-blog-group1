@@ -51,6 +51,9 @@ class AddArticleModal extends Component {
     const self = this;
     let content = this.state.content.split(/\r?\n/);
     let frontContent = [content[0]];
+    let upperCaseLetter = /([A-Z]{1})([a-z]+)(\s)([A-Z]{1})([a-z]+){1}(|\s)$/g;
+    let regexJpg = /\.(jpe?g|png|gif|bmp)$/i;
+    
     console.log(content);
     console.log(frontContent);
     const obj = {
@@ -75,7 +78,9 @@ class AddArticleModal extends Component {
         this.state.imgUrl &&
         this.state.saying &&
         this.state.frontContent &&
-        this.state.content
+        this.state.content &&
+        upperCaseLetter.test(this.state.author) &&
+        regexJpg.test(this.state.imgUrl)
       ) {
         fetch("http://localhost:3007/articles", {
           method: "POST",
@@ -253,7 +258,7 @@ setSuccessFor(input) {
             <div className="modal__content">
               <h2 className="title modal-title">Add/Edit Article</h2>
               <div className="inputs__container">
-                <Toast />
+              <div className="form-field">
                 <input
                   value={this.state.title}
                   onChange={this.handleChangeTitle}
@@ -370,11 +375,13 @@ setSuccessFor(input) {
               </div>
             </div>
           </div>
+        </div>
       );
     } else {
       return null;
     }
   }
 }
+
 
 export default AddArticleModal;
