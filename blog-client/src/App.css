@@ -645,6 +645,14 @@ small.textarea-small {
     border: 2px solid #e74c3c;
 }
 
+.form-field.success textarea {
+    border: 2px solid #66e29b;
+}
+
+.form-field.fail textarea {
+    border: 2px solid #e74c3c;
+}
+
 .form-field label {
     display: inline-block;
 }
