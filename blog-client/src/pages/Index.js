@@ -21,7 +21,7 @@ class Index extends Component {
       isModalClicked: false,
       isEditModalClicked: false,
       isToastShown: false,
-      toastContent: ''
+      toastContent: "",
     };
     this.openModal = this.openModal.bind(this);
     this.getArticleList = this.getArticleList.bind(this);
@@ -51,11 +51,8 @@ class Index extends Component {
   }
 
   showToast(toastContent) {
-    this.setState({isToastShown: true, toastContent: toastContent});
-    setTimeout(
-      () =>  this.setState({isToastShown: false}), 
-      3000
-    );
+    this.setState({ isToastShown: true, toastContent: toastContent });
+    setTimeout(() => this.setState({ isToastShown: false }), 3000);
   }
 
   // TAKING DATA FROM SERVER
@@ -96,6 +93,7 @@ class Index extends Component {
         () => this.getArticleList()
       );
     }
+    window.scrollTo(0, 0);
   }
 
   loadPreviousPage() {
@@ -108,6 +106,7 @@ class Index extends Component {
         () => this.getArticleList()
       );
     }
+    window.scrollTo(0, 0);
   }
 
   componentDidMount() {
@@ -151,7 +150,10 @@ class Index extends Component {
 
     return (
       <>
-      <Toast isToastShown={this.state.isToastShown} toastContent={this.state.toastContent}/>
+        <Toast
+          isToastShown={this.state.isToastShown}
+          toastContent={this.state.toastContent}
+        />
         <ThemeSwitch />
         <NavBar />
         <ButtonModal openModal={this.openModal} />
