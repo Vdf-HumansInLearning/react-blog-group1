@@ -142,7 +142,7 @@ class AddArticleModal extends Component {
 
   componentDidMount() {
     this.resetForm();
-    if (this.props.articleToEdit)
+    if (this.props.articleToEdit) {
       this.setState({
         ...this.state,
         title: this.props.articleToEdit.title,
@@ -153,6 +153,19 @@ class AddArticleModal extends Component {
         saying: this.props.articleToEdit.saying,
         content: this.props.articleToEdit.content.join("\n"),
       });
+    } else {
+      let today = new Date();
+      this.setState({
+        date:
+          today.toLocaleString("default", {
+            month: "long",
+          }) +
+          " " +
+          today.getDate() +
+          ", " +
+          today.getFullYear(),
+      });
+    }
   }
 
   render() {
