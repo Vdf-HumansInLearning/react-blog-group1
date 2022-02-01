@@ -84,7 +84,7 @@ class AddArticleModal extends Component {
               self.resetForm();
               self.props.hideModal();
               self.props.getArticleList();
-              self.props.showToast('Article added successfully!');
+              self.props.showToast("Article added successfully!");
             });
           })
           .catch(function (err) {
@@ -107,6 +107,9 @@ class AddArticleModal extends Component {
             self.resetForm();
             self.props.hideModal();
             self.props.getArticleList();
+            self.props.showToast(
+              "Article edited successfully! Please refresh the page to see the changes! :)"
+            );
           });
         })
         .catch(function (err) {
@@ -153,16 +156,14 @@ class AddArticleModal extends Component {
   }
 
   render() {
-   
     if (this.state.isModalClicked || this.state.isEditModalClicked) {
       return (
         <div className="modal__overlay">
-          
           <div className="add-modal">
             <div className="modal__content">
               <h2 className="title modal-title">Add/Edit Article</h2>
               <div className="inputs__container">
-              <Toast />
+                <Toast />
                 <input
                   value={this.state.title}
                   onChange={this.handleChangeTitle}

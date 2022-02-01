@@ -93,6 +93,7 @@ class Index extends Component {
         () => this.getArticleList()
       );
     }
+    window.scrollTo(0, 0);
   }
 
   loadPreviousPage() {
@@ -105,6 +106,7 @@ class Index extends Component {
         () => this.getArticleList()
       );
     }
+    window.scrollTo(0, 0);
   }
 
   componentDidMount() {
@@ -145,8 +147,6 @@ class Index extends Component {
         />
       );
     }
-
-    window.scrollTo(0, 0);
 
     return (
       <>
