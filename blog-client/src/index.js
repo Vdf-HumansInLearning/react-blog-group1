@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
 
 import reportWebVitals from "./reportWebVitals";
@@ -15,7 +15,8 @@ ReactDOM.render(
       <ScrollToTop />
 
       <Routes>
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<Navigate replace to="/not-found" />} />
+        <Route path="/not-found" element={<NotFound />}></Route>
         <Route path="/" element={<Index />} />
         <Route path="/details" element={<Article />}>
           <Route path=":id" element={<Article />} />

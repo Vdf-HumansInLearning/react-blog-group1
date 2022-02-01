@@ -30,9 +30,10 @@ app.get("/articles/:id", (req, res) => {
   }
 
   if (article === undefined) {
-    article = { message: "article not found", status: 404 };
+    res.status(404).json({ message: "article not found" });
+  } else {
+    res.status(200).json(article);
   }
-  res.json(article);
 });
 
 app.post("/articles", (req, res) => {

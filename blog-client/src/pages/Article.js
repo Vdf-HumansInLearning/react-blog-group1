@@ -1,6 +1,9 @@
 import { Component } from "react";
+
 import "../App.css";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import ArticleHeader from "../components/ArticleHeader";
 import NavBar from "../components/NavBar";
 import ThemeSwitch from "../components/ThemeSwitch";
@@ -38,6 +41,8 @@ class Article extends Component {
             "Looks like there was a problem. Status Code: " + response.status
           );
           //redirect to 404
+
+          self.props.navigate("/*", { replace: true });
           return;
         }
         // Examine the text in the response
@@ -91,9 +96,10 @@ class Article extends Component {
 
 const withRouter = (WrappedComponent) => (props) => {
   const params = useParams();
+  const navigate = useNavigate();
   return (
     <>
-      <WrappedComponent {...props} params={params} />
+      <WrappedComponent {...props} params={params} navigate={navigate} />
     </>
   );
 };
