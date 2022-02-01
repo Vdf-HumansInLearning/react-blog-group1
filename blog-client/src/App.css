@@ -611,6 +611,78 @@ input#date {
     justify-content: end;
 }
 
+.form-field {
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.form-field small {
+    visibility: hidden;
+    position: absolute;
+    top: 35px;
+    left: 12px;
+    padding-bottom: 15px;
+}
+
+.form-field.fail small {
+    visibility: visible;
+    color: #e74c3c;
+}
+
+small.textarea-small {
+    position: absolute;
+    top: 180px;
+    left: 90px;
+    font-size: 16px;
+}
+
+.form-field.success input {
+    border: 2px solid #66e29b;
+}
+
+.form-field.fail input {
+    border: 2px solid #e74c3c;
+}
+
+.form-field label {
+    display: inline-block;
+}
+
+.form-field i {
+    position: absolute;
+    top: 36px;
+    right: 3px;
+    visibility: hidden;
+}
+
+.form-field.success i.fa-solid.fa-circle-check {
+    color: #66e29b;
+    visibility: visible;
+    position: absolute;
+    top: 8px;
+    left: 365px;
+}
+
+.form-field.fail i.fa-solid.fa-circle-exclamation {
+    color: #e74c3c;
+    visibility: visible;
+    position: absolute;
+    top: 8px;
+    left: 365px;
+}
+
+.form-field.success i.fa-solid.fa-circle-check.textarea-icon {
+    position: absolute;
+    left: 890px;
+    font-size: 18px;
+}
+
+.form-field.fail i.fa-solid.fa-circle-exclamation.textarea-icon {
+    position: absolute;
+    left: 890px;
+    font-size: 18px;
+}
+
 @media(max-width: 768px) {
     #loader {
         position: absolute;

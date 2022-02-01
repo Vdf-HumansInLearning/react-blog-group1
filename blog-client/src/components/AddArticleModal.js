@@ -26,6 +26,10 @@ class AddArticleModal extends Component {
     this.handleChangeSaying = this.handleChangeSaying.bind(this);
     this.handleChangeContent = this.handleChangeContent.bind(this);
     this.resetForm = this.resetForm.bind(this);
+    this.setErrorFor = this.setErrorFor.bind(this);
+    this.setSuccessFor = this.setSuccessFor.bind(this);
+    this.checkInputs = this.checkInputs.bind(this);
+
   }
 
   resetForm() {
@@ -62,6 +66,7 @@ class AddArticleModal extends Component {
     };
 
     if (this.props.articleToEdit === null) {
+      this.checkInputs();
       if (
         this.state.title &&
         this.state.tag &&
@@ -152,6 +157,78 @@ class AddArticleModal extends Component {
       });
   }
 
+  checkInputs() {
+    let upperCaseLetter = /([A-Z]{1})([a-z]+)(\s)([A-Z]{1})([a-z]+){1}(|\s)$/g;
+    let regexJpg = /\.(jpe?g|png|gif|bmp)$/i;
+
+    const title = this.state.title.trim();
+    const tag = this.state.tag.trim();
+    const author = this.state.author.trim();
+    const imgUrl = this.state.imgUrl.trim();
+    const saying = this.state.saying.trim();
+    const textarea = this.state.content.trim();
+
+    const titleInput = document.getElementById('title');
+    const tagInput = document.getElementById('tag');
+    const authorInput = document.getElementById('author');
+    const imgUrlInput = document.getElementById('url');
+    const sayingInput = document.getElementById('saying');
+    const textareaInput = document.getElementById('textarea');
+
+    if (title === '') {
+        this.setErrorFor(titleInput, 'Please insert a title!')
+    } else {
+        this.setSuccessFor(titleInput)
+    }
+
+    if (tag === '') {
+        this.setErrorFor(tagInput, 'Please insert a tag!')
+    } else {
+        this.setSuccessFor(tagInput)
+    }
+
+    if (author === '') {
+        this.setErrorFor(authorInput, 'Please insert an author!')
+    } else if (!upperCaseLetter.test(author)) {
+        this.setErrorFor(authorInput, 'Please use capital letters for the author\'s first and last name!')
+    } else {
+      this.setSuccessFor(authorInput)
+    }
+
+    if (imgUrl === '') {
+        this.setErrorFor(imgUrlInput, 'Please insert an image!')
+    } else if (!regexJpg.test(imgUrl)){
+      this.setErrorFor(imgUrlInput, 'Please insert an image with jpg/jpeg/png/bmp/gif extension!')
+    } else {
+      this.setSuccessFor(imgUrlInput)
+    }
+
+    if (saying === '') {
+        this.setErrorFor(sayingInput, 'Please insert a saying!');
+    } else {
+        this.setSuccessFor(sayingInput);
+    }
+
+    if (textarea === '') {
+        this.setErrorFor(textareaInput, 'Please insert a content!')
+    } else {
+        this.setSuccessFor(textareaInput);
+    }
+}
+
+setErrorFor(input, message) {
+  const formField = input.parentElement;
+  const small = formField.querySelector('small');
+  small.innerText = message;
+
+  formField.className = 'form-field fail'
+}
+
+setSuccessFor(input) {
+  const formField = input.parentElement;
+  formField.className = 'form-field success';
+}
+
   render() {
    
     if (this.state.isModalClicked || this.state.isEditModalClicked) {
@@ -162,7 +239,7 @@ class AddArticleModal extends Component {
             <div className="modal__content">
               <h2 className="title modal-title">Add/Edit Article</h2>
               <div className="inputs__container">
-              <Toast />
+              <div className="form-field">
                 <input
                   value={this.state.title}
                   onChange={this.handleChangeTitle}
@@ -171,6 +248,11 @@ class AddArticleModal extends Component {
                   id="title"
                   placeholder="Please enter title"
                 ></input>
+                 <i className="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-exclamation"></i>
+                <small>Error message</small> 
+                </div>
+                <div className="form-field">
                 <input
                   value={this.state.tag}
                   onChange={this.handleChangeTag}
@@ -179,6 +261,11 @@ class AddArticleModal extends Component {
                   id="tag"
                   placeholder="Please enter tag"
                 ></input>
+                 <i className="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-exclamation"></i>
+                 <small>Error message</small>
+                </div>
+                <div className="form-field">
                 <input
                   value={this.state.author}
                   onChange={this.handleChangeAuthor}
@@ -187,6 +274,10 @@ class AddArticleModal extends Component {
                   id="author"
                   placeholder="Please enter author"
                 ></input>
+                  <i className="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-exclamation"></i>
+                 <small>Error message</small>
+                </div>
                 <input
                   value={this.state.date}
                   onChange={this.handleChangeDate}
@@ -195,6 +286,7 @@ class AddArticleModal extends Component {
                   id="date"
                   placeholder="Please enter date"
                 ></input>
+                <div className="form-field">
                 <input
                   value={this.state.imgUrl}
                   onChange={this.handleChangeImgUrl}
@@ -203,6 +295,11 @@ class AddArticleModal extends Component {
                   id="url"
                   placeholder="Please enter image url"
                 ></input>
+                 <i className="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-exclamation"></i>
+                 <small>Error message</small>
+                </div>
+                  <div className="form-field">
                 <input
                   value={this.state.saying}
                   onChange={this.handleChangeSaying}
@@ -211,7 +308,12 @@ class AddArticleModal extends Component {
                   id="saying"
                   placeholder="Please enter saying"
                 ></input>
+                <i className="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-exclamation"></i>
+                 <small>Error message</small>
+                </div>
               </div>
+              <div className="form-field">
               <textarea
                 value={this.state.content}
                 onChange={this.handleChangeContent}
@@ -222,6 +324,10 @@ class AddArticleModal extends Component {
                 rows="7"
                 placeholder="Please enter content"
               ></textarea>
+               <i className="fa-solid fa-circle-check textarea-icon"></i>
+                <i className="fa-solid fa-circle-exclamation textarea-icon"></i>
+                 <small className="textarea-small">Error message</small>
+                </div>
               <div className="modal__buttons">
                 <button
                   type="button"
