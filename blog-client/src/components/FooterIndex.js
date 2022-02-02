@@ -2,11 +2,7 @@ import React from "react";
 
 function Footer({ loadNextPage, loadPreviousPage, indexStart, indexEnd }) {
   return (
-    <footer
-      className={
-        "footer-details " + (!indexStart && indexEnd ? "footer-next" : "")
-      }
-    >
+    <footer className={"footer-details " + (!indexStart && indexEnd ? "footer-next" : "")}>
       {indexStart && indexEnd ? (
         <>
           <button

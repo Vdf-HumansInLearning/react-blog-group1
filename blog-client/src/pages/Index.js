@@ -20,33 +20,37 @@ class Index extends Component {
       articleList: [],
       articleToEdit: null,
       articleToDelete: null,
-      isModalClicked: false,
+      isAddModalClicked: false,
       isEditModalClicked: false,
       isDeleteModalClicked: false,
       isToastShown: false,
       toastContent: "",
     };
-    this.openModal = this.openModal.bind(this);
+
     this.getArticleList = this.getArticleList.bind(this);
-    this.hideModal = this.hideModal.bind(this);
     this.loadNextPage = this.loadNextPage.bind(this);
     this.loadPreviousPage = this.loadPreviousPage.bind(this);
-    this.openEditModal = this.openEditModal.bind(this);
     this.showToast = this.showToast.bind(this);
+
+    this.openEditModal = this.openEditModal.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.openDeleteModal = this.openDeleteModal.bind(this);
+
+    this.hideDeleteModal = this.hideDeleteModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+
     this.addArticle = this.addArticle.bind(this);
     this.editArticle = this.editArticle.bind(this);
-    this.openDeleteModal = this.openDeleteModal.bind(this);
-    this.hideDeleteModal = this.hideDeleteModal.bind(this);
     this.deleteArticle = this.deleteArticle.bind(this);
   }
 
   openModal() {
-    this.setState({ isModalClicked: true });
+    this.setState({ isAddModalClicked: true });
   }
 
   hideModal() {
     this.setState({
-      isModalClicked: false,
+      isAddModalClicked: false,
       isEditModalClicked: false,
       articleToEdit: null,
     });
@@ -84,11 +88,10 @@ class Index extends Component {
           );
           return;
         }
-
         // Examine the text in the response
         response.json().then(function (data) {
           self.setState({
-            articleList: [...data.articlesList],
+            articleList: data.articlesList,
             totalNumberOfArticles: data.numberOfArticles,
           });
         });
@@ -109,7 +112,7 @@ class Index extends Component {
       body: JSON.stringify(articleToPost),
     })
       .then(function (response) {
-        response.json().then(function (data) {
+        response.json().then(function () {
           self.hideModal();
           self.getArticleList();
           self.showToast("Article added successfully!");
@@ -121,7 +124,8 @@ class Index extends Component {
   }
 
   editArticle(article) {
-    let self = this;
+    const self = this;
+
     fetch("http://localhost:3007/articles/" + article.id, {
       method: "PUT",
       headers: {
@@ -143,7 +147,8 @@ class Index extends Component {
   }
 
   deleteArticle() {
-    let self = this;
+    const self = this;
+
     fetch("http://localhost:3007/articles/" + self.state.articleToDelete, {
       method: "DELETE",
     }).then(() => {
@@ -192,7 +197,7 @@ class Index extends Component {
   render() {
     let { articleList } = this.state;
     const isDeleteModalClicked = this.state.isDeleteModalClicked;
-    const isModalClicked = this.state.isModalClicked;
+    const isAddModalClicked = this.state.isAddModalClicked;
     const isEditModalClicked = this.state.isEditModalClicked;
 
     let articles = articleList.map((article) => (
@@ -209,11 +214,10 @@ class Index extends Component {
     ));
 
     let addArticleModal;
-
-    if (isModalClicked || isEditModalClicked) {
+    if (isAddModalClicked || isEditModalClicked) {
       addArticleModal = (
         <AddArticleModal
-          isModalClicked={isModalClicked}
+          isAddModalClicked={isAddModalClicked}
           isEditModalClicked={isEditModalClicked}
           articleToEdit={this.state.articleToEdit}
           hideModal={this.hideModal}
@@ -239,9 +243,7 @@ class Index extends Component {
       <>
         <Toast
           isToastShown={this.state.isToastShown}
-          // isToastShown={true}
           toastContent={this.state.toastContent}
-        // toastContent={'article added'}
         />
         <ThemeSwitch />
         <NavBar />

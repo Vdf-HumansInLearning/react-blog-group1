@@ -1,6 +1,4 @@
 import { Component } from "react";
-
-import "../App.css";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -11,19 +9,19 @@ import Saying from "../components/Saying";
 import FooterDetails from "../components/FooterDetails";
 import Content from "../components/Content";
 
+import "../App.css";
+
 class Article extends Component {
   constructor(props) {
     super(props);
     this.state = {
       article: {
         id: "",
-        headerData: {
-          title: "",
-          tag: "",
-          author: "",
-          date: "",
-          imgUrl: "",
-        },
+        title: "",
+        tag: "",
+        author: "",
+        date: "",
+        imgUrl: "",
         saying: "",
         frontContent: [],
         content: [],
@@ -41,11 +39,9 @@ class Article extends Component {
             "Looks like there was a problem. Status Code: " + response.status
           );
           //redirect to 404
-
           self.props.navigate("/*", { replace: true });
           return;
         }
-        // Examine the text in the response
         response.json().then(function (data) {
           self.setState({ article: data });
         });
@@ -60,7 +56,6 @@ class Article extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // compare props:
     if (this.props.params.id !== prevProps.params.id) {
       this.getOneArticle(this.props.params.id);
     }
@@ -71,10 +66,12 @@ class Article extends Component {
     let middle = Math.round((article.content.length - 1) / 2);
     const contentList = article.content.map((paragraph, index) => {
       if (index === middle) {
-        return [
-          <Saying saying={article.saying} key={index + 1} />,
-          <Content content={paragraph} key={index} />,
-        ];
+        return (
+          <>
+            <Saying saying={article.saying} key={index + 1} />
+            <Content content={paragraph} key={index} />
+          </>
+        )
       } else {
         return <Content content={paragraph} key={index} />;
       }

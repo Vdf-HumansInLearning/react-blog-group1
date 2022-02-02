@@ -13,7 +13,7 @@ class AddArticleModal extends Component {
       saying: "",
       frontContent: [],
       content: "",
-      isModalClicked: props.isModalClicked,
+      isAddModalClicked: props.isAddModalClicked,
       isEditModalClicked: props.isEditModalClicked,
     };
 
@@ -127,7 +127,7 @@ class AddArticleModal extends Component {
       upperCaseLetter.test(this.state.author) &&
       regexJpg.test(this.state.imgUrl)
     ) {
-      if (this.props.isModalClicked) {
+      if (this.props.isAddModalClicked) {
         this.props.addArticle(article);
       } else {
         this.props.editArticle(article);
@@ -214,135 +214,131 @@ class AddArticleModal extends Component {
   }
 
   render() {
-    if (this.state.isModalClicked || this.state.isEditModalClicked) {
-      return (
-        <div className="modal__overlay">
-          <div className="add-modal">
-            <div className="modal__content">
-              <h2 className="title modal-title">Add/Edit Article</h2>
-              <div className="inputs__container">
-                <div className="form-field">
-                  <input
-                    value={this.state.title}
-                    onChange={this.handleChangeTitle}
-                    type="text"
-                    className="input margin"
-                    id="title"
-                    placeholder="Please enter title"
-                  ></input>
-                  <i className="fa-solid fa-circle-check"></i>
-                  <i className="fa-solid fa-circle-exclamation"></i>
-                  <small>Error message</small>
-                </div>
-                <div className="form-field">
-                  <input
-                    value={this.state.tag}
-                    onChange={this.handleChangeTag}
-                    type="text"
-                    className="input"
-                    id="tag"
-                    placeholder="Please enter tag"
-                  ></input>
-                  <i className="fa-solid fa-circle-check"></i>
-                  <i className="fa-solid fa-circle-exclamation"></i>
-                  <small>Error message</small>
-                </div>
-                <div className="form-field">
-                  <input
-                    value={this.state.author}
-                    onChange={this.handleChangeAuthor}
-                    type="text"
-                    className="input margin"
-                    id="author"
-                    placeholder="Please enter author"
-                  ></input>
-                  <i className="fa-solid fa-circle-check"></i>
-                  <i className="fa-solid fa-circle-exclamation"></i>
-                  <small>Error message</small>
-                </div>
+    return (
+      <div className="modal__overlay">
+        <div className="add-modal">
+          <div className="modal__content">
+            <h2 className="title modal-title">Add/Edit Article</h2>
+            <div className="inputs__container">
+              <div className="form-field">
                 <input
-                  value={this.state.date}
-                  onChange={this.handleChangeDate}
+                  value={this.state.title}
+                  onChange={this.handleChangeTitle}
                   type="text"
-                  className="input"
-                  id="date"
-                  placeholder="Please enter date"
+                  className="input margin"
+                  id="title"
+                  placeholder="Please enter title"
                 ></input>
-                <div className="form-field">
-                  <input
-                    value={this.state.imgUrl}
-                    onChange={this.handleChangeImgUrl}
-                    type="text"
-                    className="input margin"
-                    id="url"
-                    placeholder="Please enter image url"
-                  ></input>
-                  <i className="fa-solid fa-circle-check"></i>
-                  <i className="fa-solid fa-circle-exclamation"></i>
-                  <small>Error message</small>
-                </div>
-                <div className="form-field">
-                  <input
-                    value={this.state.saying}
-                    onChange={this.handleChangeSaying}
-                    type="text"
-                    className="input"
-                    id="saying"
-                    placeholder="Please enter saying"
-                  ></input>
-                  <i className="fa-solid fa-circle-check"></i>
-                  <i className="fa-solid fa-circle-exclamation"></i>
-                  <small>Error message</small>
-                </div>
+                <i className="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-exclamation"></i>
+                <small></small>
               </div>
               <div className="form-field">
-                <textarea
-                  value={this.state.content}
-                  onChange={this.handleChangeContent}
-                  className="textarea"
-                  id="textarea"
-                  name="content"
-                  cols="28"
-                  rows="7"
-                  placeholder="Please enter content"
-                ></textarea>
-                <i className="fa-solid fa-circle-check textarea-icon"></i>
-                <i className="fa-solid fa-circle-exclamation textarea-icon"></i>
-                <small className="textarea-small">Error message</small>
+                <input
+                  value={this.state.tag}
+                  onChange={this.handleChangeTag}
+                  type="text"
+                  className="input"
+                  id="tag"
+                  placeholder="Please enter tag"
+                ></input>
+                <i className="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-exclamation"></i>
+                <small></small>
               </div>
-              <div className="modal__buttons">
+              <div className="form-field">
+                <input
+                  value={this.state.author}
+                  onChange={this.handleChangeAuthor}
+                  type="text"
+                  className="input margin"
+                  id="author"
+                  placeholder="Please enter author"
+                ></input>
+                <i className="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-exclamation"></i>
+                <small></small>
+              </div>
+              <input
+                value={this.state.date}
+                onChange={this.handleChangeDate}
+                type="text"
+                className="input"
+                id="date"
+                placeholder="Please enter date"
+              ></input>
+              <div className="form-field">
+                <input
+                  value={this.state.imgUrl}
+                  onChange={this.handleChangeImgUrl}
+                  type="text"
+                  className="input margin"
+                  id="url"
+                  placeholder="Please enter image url"
+                ></input>
+                <i className="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-exclamation"></i>
+                <small></small>
+              </div>
+              <div className="form-field">
+                <input
+                  value={this.state.saying}
+                  onChange={this.handleChangeSaying}
+                  type="text"
+                  className="input"
+                  id="saying"
+                  placeholder="Please enter saying"
+                ></input>
+                <i className="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-exclamation"></i>
+                <small></small>
+              </div>
+            </div>
+            <div className="form-field">
+              <textarea
+                value={this.state.content}
+                onChange={this.handleChangeContent}
+                className="textarea"
+                id="textarea"
+                name="content"
+                cols="28"
+                rows="7"
+                placeholder="Please enter content"
+              ></textarea>
+              <i className="fa-solid fa-circle-check textarea-icon"></i>
+              <i className="fa-solid fa-circle-exclamation textarea-icon"></i>
+              <small className="textarea-small"></small>
+            </div>
+            <div className="modal__buttons">
+              <button
+                type="button"
+                className="button close-modal"
+                onClick={this.props.hideModal}
+              >
+                Cancel
+              </button>
+              {this.props.isAddModalClicked ? (
                 <button
                   type="button"
-                  className="button close-modal"
-                  onClick={this.props.hideModal}
+                  className="button button--pink"
+                  onClick={this.validateArticle}
                 >
-                  Cancel
+                  Save
                 </button>
-                {this.props.isModalClicked ? (
-                  <button
-                    type="button"
-                    className="button button--pink"
-                    onClick={this.validateArticle}
-                  >
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="button button--pink"
-                    onClick={this.validateArticle}
-                  >
-                    Edit
-                  </button>
-                )}
-              </div>
+              ) : (
+                <button
+                  type="button"
+                  className="button button--pink"
+                  onClick={this.validateArticle}
+                >
+                  Edit
+                </button>
+              )}
             </div>
           </div>
         </div>
-      );
-    } else {
-      return null;
-    }
+      </div>
+    );
   }
 }
 

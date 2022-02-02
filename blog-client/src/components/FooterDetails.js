@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 
 function FooterDetails({ nextId, prevId }) {
   return (
-    <footer
-      className={"footer-details " + (nextId && !prevId ? "footer-next" : "")}
-    >
+    <footer className={"footer-details " + (nextId && !prevId ? "footer-next" : "")}>
       {nextId && prevId ? (
         <>
           <Link
