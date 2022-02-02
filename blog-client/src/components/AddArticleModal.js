@@ -328,9 +328,9 @@ class AddArticleModal extends Component {
                   </button>
                 ) : (
                   <button
-                    onClick={this.validateArticle}
                     type="button"
                     className="button button--pink"
+                    onClick={this.validateArticle}
                   >
                     Edit
                   </button>
