@@ -1,5 +1,4 @@
 import { Component } from "react";
-import Toast from "../components/Toast";
 
 class AddArticleModal extends Component {
   constructor(props) {
@@ -17,7 +16,7 @@ class AddArticleModal extends Component {
       isModalClicked: props.isModalClicked,
       isEditModalClicked: props.isEditModalClicked,
     };
-    this.addEditArticle = this.addEditArticle.bind(this);
+
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
     this.handleChangeTag = this.handleChangeTag.bind(this);
     this.handleChangeAuthor = this.handleChangeAuthor.bind(this);
@@ -29,7 +28,7 @@ class AddArticleModal extends Component {
     this.setErrorFor = this.setErrorFor.bind(this);
     this.setSuccessFor = this.setSuccessFor.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
-
+    this.validateArticle = this.validateArticle.bind(this);
   }
 
   resetForm() {
@@ -45,87 +44,6 @@ class AddArticleModal extends Component {
       frontContent: [],
       content: "",
     });
-  }
-
-  addEditArticle() {
-    const self = this;
-    let content = this.state.content.split(/\r?\n/);
-    let frontContent = [content[0]];
-    let upperCaseLetter = /([A-Z]{1})([a-z]+)(\s)([A-Z]{1})([a-z]+){1}(|\s)$/g;
-    let regexJpg = /\.(jpe?g|png|gif|bmp)$/i;
-    
-    console.log(content);
-    console.log(frontContent);
-    const obj = {
-      id: null,
-      title: this.state.title,
-      tag: this.state.tag,
-      author: this.state.author,
-      date: this.state.date,
-      imgUrl: this.state.imgUrl,
-      saying: this.state.saying,
-      frontContent: frontContent,
-      content: content,
-    };
-
-    if (this.props.articleToEdit === null) {
-      this.checkInputs();
-      if (
-        this.state.title &&
-        this.state.tag &&
-        this.state.author &&
-        this.state.date &&
-        this.state.imgUrl &&
-        this.state.saying &&
-        this.state.frontContent &&
-        this.state.content &&
-        upperCaseLetter.test(this.state.author) &&
-        regexJpg.test(this.state.imgUrl)
-      ) {
-        fetch("http://localhost:3007/articles", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(obj),
-        })
-          .then(function (response) {
-            response.json().then(function (data) {
-              self.resetForm();
-              self.props.hideModal();
-              self.props.getArticleList();
-              self.props.showToast("Article added successfully!");
-            });
-          })
-          .catch(function (err) {
-            console.log("Fetch Error :-S", err);
-          });
-      } else {
-        console.log("Please complete all fields");
-      }
-    } else {
-      fetch("http://localhost:3007/articles/" + this.props.articleToEdit.id, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(obj),
-      })
-        .then(function (response) {
-          // Examine the text in the response
-          response.json().then(function (data) {
-            self.resetForm();
-            self.props.hideModal();
-            self.props.getArticleList();
-            self.props.showToast(
-              "Article edited successfully! Please refresh the page to see the changes! :)"
-            );
-          });
-        })
-        .catch(function (err) {
-          console.log("Fetch Error :-S", err);
-        });
-    }
   }
 
   handleChangeTitle(event) {
@@ -178,6 +96,45 @@ class AddArticleModal extends Component {
     }
   }
 
+  validateArticle() {
+    let content = this.state.content.split(/\r?\n/);
+    let frontContent = [content[0]];
+    let upperCaseLetter = /([A-Z]{1})([a-z]+)(\s)([A-Z]{1})([a-z]+){1}(|\s)$/g;
+    let regexJpg = /\.(jpe?g|png|gif|bmp)$/i;
+
+    const article = {
+      id: this.props.articleToEdit ? this.props.articleToEdit.id : null,
+      title: this.state.title,
+      tag: this.state.tag,
+      author: this.state.author,
+      date: this.state.date,
+      imgUrl: this.state.imgUrl,
+      saying: this.state.saying,
+      frontContent: frontContent,
+      content: content,
+    };
+
+    this.checkInputs();
+    if (
+      this.state.title &&
+      this.state.tag &&
+      this.state.author &&
+      this.state.date &&
+      this.state.imgUrl &&
+      this.state.saying &&
+      this.state.frontContent &&
+      this.state.content &&
+      upperCaseLetter.test(this.state.author) &&
+      regexJpg.test(this.state.imgUrl)
+    ) {
+      if (this.props.isModalClicked) {
+        this.props.addArticle(article);
+      } else {
+        this.props.editArticle(article);
+      }
+    }
+  }
+
   checkInputs() {
     let upperCaseLetter = /([A-Z]{1})([a-z]+)(\s)([A-Z]{1})([a-z]+){1}(|\s)$/g;
     let regexJpg = /\.(jpe?g|png|gif|bmp)$/i;
@@ -189,66 +146,72 @@ class AddArticleModal extends Component {
     const saying = this.state.saying.trim();
     const textarea = this.state.content.trim();
 
-    const titleInput = document.getElementById('title');
-    const tagInput = document.getElementById('tag');
-    const authorInput = document.getElementById('author');
-    const imgUrlInput = document.getElementById('url');
-    const sayingInput = document.getElementById('saying');
-    const textareaInput = document.getElementById('textarea');
+    const titleInput = document.getElementById("title");
+    const tagInput = document.getElementById("tag");
+    const authorInput = document.getElementById("author");
+    const imgUrlInput = document.getElementById("url");
+    const sayingInput = document.getElementById("saying");
+    const textareaInput = document.getElementById("textarea");
 
-    if (title === '') {
-        this.setErrorFor(titleInput, 'Please insert a title!')
+    if (title === "") {
+      this.setErrorFor(titleInput, "Please insert a title!");
     } else {
-        this.setSuccessFor(titleInput)
+      this.setSuccessFor(titleInput);
     }
 
-    if (tag === '') {
-        this.setErrorFor(tagInput, 'Please insert a tag!')
+    if (tag === "") {
+      this.setErrorFor(tagInput, "Please insert a tag!");
     } else {
-        this.setSuccessFor(tagInput)
+      this.setSuccessFor(tagInput);
     }
 
-    if (author === '') {
-        this.setErrorFor(authorInput, 'Please insert an author!')
+    if (author === "") {
+      this.setErrorFor(authorInput, "Please insert an author!");
     } else if (!upperCaseLetter.test(author)) {
-        this.setErrorFor(authorInput, 'Please use capital letters for the author\'s first and last name!')
+      this.setErrorFor(
+        authorInput,
+        "Please use capital letters for the author's first and last name!"
+      );
     } else {
-      this.setSuccessFor(authorInput)
+      this.setSuccessFor(authorInput);
     }
 
-    if (imgUrl === '') {
-        this.setErrorFor(imgUrlInput, 'Please insert an image!')
-    } else if (!regexJpg.test(imgUrl)){
-      this.setErrorFor(imgUrlInput, 'Please insert an image with jpg/jpeg/png/bmp/gif extension!')
+    if (imgUrl === "") {
+      this.setErrorFor(imgUrlInput, "Please insert an image!");
+    } else if (!regexJpg.test(imgUrl)) {
+      this.setErrorFor(
+        imgUrlInput,
+        "Please insert an image with jpg/jpeg/png/bmp/gif extension!"
+      );
     } else {
-      this.setSuccessFor(imgUrlInput)
+      this.setSuccessFor(imgUrlInput);
     }
 
-    if (saying === '') {
-        this.setErrorFor(sayingInput, 'Please insert a saying!');
+    if (saying === "") {
+      this.setErrorFor(sayingInput, "Please insert a saying!");
     } else {
-        this.setSuccessFor(sayingInput);
+      this.setSuccessFor(sayingInput);
     }
 
-    if (textarea === '') {
-        this.setErrorFor(textareaInput, 'Please insert a content!')
+    if (textarea === "") {
+      this.setErrorFor(textareaInput, "Please insert a content!");
     } else {
-        this.setSuccessFor(textareaInput);
+      this.setSuccessFor(textareaInput);
     }
-}
+  }
 
-setErrorFor(input, message) {
-  const formField = input.parentElement;
-  const small = formField.querySelector('small');
-  small.innerText = message;
+  setErrorFor(input, message) {
+    const formField = input.parentElement;
+    const small = formField.querySelector("small");
+    small.innerText = message;
 
-  formField.className = 'form-field fail'
-}
+    formField.className = "form-field fail";
+  }
 
-setSuccessFor(input) {
-  const formField = input.parentElement;
-  formField.className = 'form-field success';
-}
+  setSuccessFor(input) {
+    const formField = input.parentElement;
+    formField.className = "form-field success";
+  }
 
   render() {
     if (this.state.isModalClicked || this.state.isEditModalClicked) {
@@ -258,44 +221,44 @@ setSuccessFor(input) {
             <div className="modal__content">
               <h2 className="title modal-title">Add/Edit Article</h2>
               <div className="inputs__container">
-              <div className="form-field">
-                <input
-                  value={this.state.title}
-                  onChange={this.handleChangeTitle}
-                  type="text"
-                  className="input margin"
-                  id="title"
-                  placeholder="Please enter title"
-                ></input>
-                 <i className="fa-solid fa-circle-check"></i>
-                <i className="fa-solid fa-circle-exclamation"></i>
-                <small>Error message</small> 
-                </div>
                 <div className="form-field">
-                <input
-                  value={this.state.tag}
-                  onChange={this.handleChangeTag}
-                  type="text"
-                  className="input"
-                  id="tag"
-                  placeholder="Please enter tag"
-                ></input>
-                 <i className="fa-solid fa-circle-check"></i>
-                <i className="fa-solid fa-circle-exclamation"></i>
-                 <small>Error message</small>
-                </div>
-                <div className="form-field">
-                <input
-                  value={this.state.author}
-                  onChange={this.handleChangeAuthor}
-                  type="text"
-                  className="input margin"
-                  id="author"
-                  placeholder="Please enter author"
-                ></input>
+                  <input
+                    value={this.state.title}
+                    onChange={this.handleChangeTitle}
+                    type="text"
+                    className="input margin"
+                    id="title"
+                    placeholder="Please enter title"
+                  ></input>
                   <i className="fa-solid fa-circle-check"></i>
-                <i className="fa-solid fa-circle-exclamation"></i>
-                 <small>Error message</small>
+                  <i className="fa-solid fa-circle-exclamation"></i>
+                  <small>Error message</small>
+                </div>
+                <div className="form-field">
+                  <input
+                    value={this.state.tag}
+                    onChange={this.handleChangeTag}
+                    type="text"
+                    className="input"
+                    id="tag"
+                    placeholder="Please enter tag"
+                  ></input>
+                  <i className="fa-solid fa-circle-check"></i>
+                  <i className="fa-solid fa-circle-exclamation"></i>
+                  <small>Error message</small>
+                </div>
+                <div className="form-field">
+                  <input
+                    value={this.state.author}
+                    onChange={this.handleChangeAuthor}
+                    type="text"
+                    className="input margin"
+                    id="author"
+                    placeholder="Please enter author"
+                  ></input>
+                  <i className="fa-solid fa-circle-check"></i>
+                  <i className="fa-solid fa-circle-exclamation"></i>
+                  <small>Error message</small>
                 </div>
                 <input
                   value={this.state.date}
@@ -306,47 +269,47 @@ setSuccessFor(input) {
                   placeholder="Please enter date"
                 ></input>
                 <div className="form-field">
-                <input
-                  value={this.state.imgUrl}
-                  onChange={this.handleChangeImgUrl}
-                  type="text"
-                  className="input margin"
-                  id="url"
-                  placeholder="Please enter image url"
-                ></input>
-                 <i className="fa-solid fa-circle-check"></i>
-                <i className="fa-solid fa-circle-exclamation"></i>
-                 <small>Error message</small>
+                  <input
+                    value={this.state.imgUrl}
+                    onChange={this.handleChangeImgUrl}
+                    type="text"
+                    className="input margin"
+                    id="url"
+                    placeholder="Please enter image url"
+                  ></input>
+                  <i className="fa-solid fa-circle-check"></i>
+                  <i className="fa-solid fa-circle-exclamation"></i>
+                  <small>Error message</small>
                 </div>
-                  <div className="form-field">
-                <input
-                  value={this.state.saying}
-                  onChange={this.handleChangeSaying}
-                  type="text"
-                  className="input"
-                  id="saying"
-                  placeholder="Please enter saying"
-                ></input>
-                <i className="fa-solid fa-circle-check"></i>
-                <i className="fa-solid fa-circle-exclamation"></i>
-                 <small>Error message</small>
+                <div className="form-field">
+                  <input
+                    value={this.state.saying}
+                    onChange={this.handleChangeSaying}
+                    type="text"
+                    className="input"
+                    id="saying"
+                    placeholder="Please enter saying"
+                  ></input>
+                  <i className="fa-solid fa-circle-check"></i>
+                  <i className="fa-solid fa-circle-exclamation"></i>
+                  <small>Error message</small>
                 </div>
               </div>
               <div className="form-field">
-              <textarea
-                value={this.state.content}
-                onChange={this.handleChangeContent}
-                className="textarea"
-                id="textarea"
-                name="content"
-                cols="28"
-                rows="7"
-                placeholder="Please enter content"
-              ></textarea>
-               <i className="fa-solid fa-circle-check textarea-icon"></i>
+                <textarea
+                  value={this.state.content}
+                  onChange={this.handleChangeContent}
+                  className="textarea"
+                  id="textarea"
+                  name="content"
+                  cols="28"
+                  rows="7"
+                  placeholder="Please enter content"
+                ></textarea>
+                <i className="fa-solid fa-circle-check textarea-icon"></i>
                 <i className="fa-solid fa-circle-exclamation textarea-icon"></i>
-                 <small className="textarea-small">Error message</small>
-                </div>
+                <small className="textarea-small">Error message</small>
+              </div>
               <div className="modal__buttons">
                 <button
                   type="button"
@@ -359,13 +322,13 @@ setSuccessFor(input) {
                   <button
                     type="button"
                     className="button button--pink"
-                    onClick={this.addEditArticle}
+                    onClick={this.validateArticle}
                   >
                     Save
                   </button>
                 ) : (
                   <button
-                    onClick={this.addEditArticle}
+                    onClick={this.validateArticle}
                     type="button"
                     className="button button--pink"
                   >
@@ -382,6 +345,5 @@ setSuccessFor(input) {
     }
   }
 }
-
 
 export default AddArticleModal;

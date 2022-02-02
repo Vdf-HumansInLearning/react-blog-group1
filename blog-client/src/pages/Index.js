@@ -30,6 +30,8 @@ class Index extends Component {
     this.loadPreviousPage = this.loadPreviousPage.bind(this);
     this.openEditModal = this.openEditModal.bind(this);
     this.showToast = this.showToast.bind(this);
+    this.addArticle = this.addArticle.bind(this);
+    this.editArticle = this.editArticle.bind(this);
   }
 
   openModal() {
@@ -76,6 +78,50 @@ class Index extends Component {
             articleList: [...data.articlesList],
             totalNumberOfArticles: data.numberOfArticles,
           });
+        });
+      })
+      .catch(function (err) {
+        console.log("Fetch Error :-S", err);
+      });
+  }
+
+  addArticle(articleToPost) {
+    const self = this;
+
+    fetch("http://localhost:3007/articles", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(articleToPost),
+    })
+      .then(function (response) {
+        response.json().then(function (data) {
+          self.hideModal();
+          self.getArticleList();
+          self.showToast("Article added successfully!");
+        });
+      })
+      .catch(function (err) {
+        console.log("Fetch Error :-S", err);
+      });
+  }
+
+  editArticle(article) {
+    let self = this;
+    fetch("http://localhost:3007/articles/" + article.id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(article),
+    })
+      .then(function (response) {
+        // Examine the text in the response
+        response.json().then(function (data) {
+          self.hideModal();
+          self.getArticleList();
+          self.showToast("Article edited successfully!");
         });
       })
       .catch(function (err) {
@@ -139,11 +185,13 @@ class Index extends Component {
       addArticleModal = (
         <AddArticleModal
           isModalClicked={this.state.isModalClicked}
-          hideModal={this.hideModal}
           isEditModalClicked={this.state.isEditModalClicked}
-          getArticleList={this.getArticleList}
           articleToEdit={this.state.articleToEdit}
+          hideModal={this.hideModal}
+          getArticleList={this.getArticleList}
           showToast={this.showToast}
+          addArticle={this.addArticle}
+          editArticle={this.editArticle}
         />
       );
     }
