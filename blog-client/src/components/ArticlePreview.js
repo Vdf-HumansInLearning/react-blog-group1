@@ -63,20 +63,20 @@ class ArticlePreview extends Component {
       );
     }
 
-    const { article } = this.state;
+    const { article } = this.props;
     const contentList = article.frontContent.map((paragraph, index) => {
       return <Content content={paragraph} key={index} />;
     });
     return (
       <article>
         <ArticleHeader
-          article={this.state.article}
+          article={article}
           openDeleteModal={this.openDeleteModal}
           openEditModal={this.props.openEditModal}
           editArticle={this.editArticle}
         />
         <div className="content__container">{contentList}</div>
-        <ButtonReadmore articleId={this.state.article.id} />
+        <ButtonReadmore articleId={this.props.article.id} />
         {deleteArticleModal}
       </article>
     );

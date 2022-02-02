@@ -73,9 +73,9 @@ class Index extends Component {
         // Examine the text in the response
         response.json().then(function (data) {
           self.setState({
-            articleList: data.articlesList,
+            articleList: [...data.articlesList],
+            totalNumberOfArticles: data.numberOfArticles,
           });
-          self.setState({ totalNumberOfArticles: data.numberOfArticles });
         });
       })
       .catch(function (err) {
