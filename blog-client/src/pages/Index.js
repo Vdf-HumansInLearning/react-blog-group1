@@ -19,7 +19,7 @@ class Index extends Component {
       totalNumberOfArticles: 0,
       articleList: [],
       articleToEdit: null,
-      articleToDelete: 0,
+      articleToDelete: null,
       isModalClicked: false,
       isEditModalClicked: false,
       isDeleteModalClicked: false,
@@ -37,11 +37,11 @@ class Index extends Component {
     this.editArticle = this.editArticle.bind(this);
     this.openDeleteModal = this.openDeleteModal.bind(this);
     this.hideDeleteModal = this.hideDeleteModal.bind(this);
+    this.deleteArticle = this.deleteArticle.bind(this);
   }
 
   openModal() {
     this.setState({ isModalClicked: true });
-    console.log(this.state.isModalClicked);
   }
 
   hideModal() {
@@ -57,8 +57,8 @@ class Index extends Component {
     this.setState({ isEditModalClicked: true, articleToEdit: article });
   }
 
-  openDeleteModal() {
-    //this.setState({ isDeleteModalClicked: true });
+  openDeleteModal(articleId) {
+    this.setState({ isDeleteModalClicked: true, articleToDelete: articleId });
   }
 
   hideDeleteModal() {
@@ -144,14 +144,14 @@ class Index extends Component {
 
   deleteArticle() {
     let self = this;
-    fetch("http://localhost:3007/articles/" + this.state.articleToDelete, {
+    fetch("http://localhost:3007/articles/" + self.state.articleToDelete, {
       method: "DELETE",
     }).then(() => {
       this.setState({
         status: "Delete successful",
         isDeleteModalClicked: false,
       });
-      this.props.showToast("Article deleted successfully!");
+      this.showToast("Article deleted successfully!");
       if (self.totalNumberOfArticles % self.indexSize === 1) {
         self.loadPreviousPage();
       }
@@ -191,6 +191,7 @@ class Index extends Component {
 
   render() {
     let { articleList } = this.state;
+    const isDeleteModalClicked = this.state.isDeleteModalClicked;
     const isModalClicked = this.state.isModalClicked;
     const isEditModalClicked = this.state.isEditModalClicked;
 
@@ -198,7 +199,7 @@ class Index extends Component {
       <ArticlePreview
         article={article}
         key={article.id}
-        isDeleteModalClicked={this.state.isDeleteModalClicked}
+        isDeleteModalClicked={isDeleteModalClicked}
         openDeleteModal={this.openDeleteModal}
         hideDeleteModal={this.hideDeleteModal}
         openEditModal={this.openEditModal}
@@ -212,8 +213,8 @@ class Index extends Component {
     if (isModalClicked || isEditModalClicked) {
       addArticleModal = (
         <AddArticleModal
-          isModalClicked={this.state.isModalClicked}
-          isEditModalClicked={this.state.isEditModalClicked}
+          isModalClicked={isModalClicked}
+          isEditModalClicked={isEditModalClicked}
           articleToEdit={this.state.articleToEdit}
           hideModal={this.hideModal}
           getArticleList={this.getArticleList}
@@ -225,10 +226,9 @@ class Index extends Component {
     }
 
     let deleteArticleModal;
-    if (this.state.isDeleteModalClicked) {
+    if (isDeleteModalClicked) {
       deleteArticleModal = (
         <DeleteModal
-          isDeleteModalClicked={this.state.isDeleteModalClicked}
           hideDeleteModal={this.hideDeleteModal}
           deleteArticle={this.deleteArticle}
         />
@@ -241,7 +241,7 @@ class Index extends Component {
           isToastShown={this.state.isToastShown}
           // isToastShown={true}
           toastContent={this.state.toastContent}
-          // toastContent={'article added'}
+        // toastContent={'article added'}
         />
         <ThemeSwitch />
         <NavBar />

@@ -18,21 +18,6 @@ class NotFound extends Component {
     this.setState({ currentTheme: currentTheme, currentImg: currentImg });
   }
 
-  // componentDidUpdate(prevState) {
-  //   // compare props:
-  //   if (this.state.currentTheme != prevState.currentTheme) {
-  //     if (this.state.currentTheme == 'dark') {
-  //       this.setState({
-  //         currentImg: "dark-img"
-  //       });
-  //     } else {
-  //       this.setState({
-  //         currentImg: "light-img"
-  //       });
-  //     }
-  //   }
-  // }
-
   render() {
     return (
       <>
