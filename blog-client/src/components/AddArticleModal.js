@@ -1,4 +1,5 @@
 import { Component } from "react";
+import DragAndDrop from "./DragAndDrop";
 
 class AddArticleModal extends Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class AddArticleModal extends Component {
     this.setSuccessFor = this.setSuccessFor.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
     this.validateArticle = this.validateArticle.bind(this);
+    this.clearErrorMessage = this.clearErrorMessage.bind(this);
   }
 
   resetForm() {
@@ -58,8 +60,9 @@ class AddArticleModal extends Component {
   handleChangeDate(event) {
     this.setState({ date: event.target.value });
   }
-  handleChangeImgUrl(event) {
-    this.setState({ imgUrl: event.target.value });
+  handleChangeImgUrl(imgUrl) {
+    this.clearErrorMessage();
+    this.setState({ imgUrl: imgUrl });
   }
   handleChangeSaying(event) {
     this.setState({ saying: event.target.value });
@@ -67,6 +70,7 @@ class AddArticleModal extends Component {
   handleChangeContent(event) {
     this.setState({ content: event.target.value });
   }
+
 
   componentDidMount() {
     this.resetForm();
@@ -108,7 +112,7 @@ class AddArticleModal extends Component {
       tag: this.state.tag,
       author: this.state.author,
       date: this.state.date,
-      imgUrl: this.state.imgUrl,
+      imgUrl: '../assets/img/' + this.state.imgUrl,
       saying: this.state.saying,
       frontContent: frontContent,
       content: content,
@@ -213,6 +217,13 @@ class AddArticleModal extends Component {
     formField.className = "form-field success";
   }
 
+  clearErrorMessage() {
+    const formField = document.getElementById('url').parentElement;
+    const small = formField.querySelector("small");
+    small.innerText = '';
+    formField.className = "form-field";
+  }
+
   render() {
     return (
       <div className="modal__overlay">
@@ -268,17 +279,14 @@ class AddArticleModal extends Component {
                 placeholder="Please enter date"
               ></input>
               <div className="form-field">
-                <input
-                  value={this.state.imgUrl}
-                  onChange={this.handleChangeImgUrl}
-                  type="text"
-                  className="input margin"
-                  id="url"
-                  placeholder="Please enter image url"
-                ></input>
-                <i className="fa-solid fa-circle-check"></i>
-                <i className="fa-solid fa-circle-exclamation"></i>
-                <small></small>
+                <div className="content">
+                  <div
+                    className="input margin" id='url'
+                  ><DragAndDrop handleChangeImgUrl={this.handleChangeImgUrl} /></div>
+                  <i className="fa-solid fa-circle-check attachImg"></i>
+                  <i className="fa-solid fa-circle-exclamation attachImg"></i>
+                  <small className="attachImg"></small>
+                </div>
               </div>
               <div className="form-field">
                 <input
@@ -337,7 +345,7 @@ class AddArticleModal extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }

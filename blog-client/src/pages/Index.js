@@ -157,7 +157,7 @@ class Index extends Component {
         isDeleteModalClicked: false,
       });
       this.showToast("Article deleted successfully!");
-      if (self.totalNumberOfArticles % self.indexSize === 1) {
+      if (this.state.totalNumberOfArticles % this.state.indexSize === 1) {
         self.loadPreviousPage();
       }
       self.getArticleList();
