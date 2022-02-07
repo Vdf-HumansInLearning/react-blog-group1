@@ -8,6 +8,7 @@ import Footer from "../components/FooterIndex";
 import AddArticleModal from "../components/AddArticleModal";
 import DeleteModal from "../components/DeleteModal";
 import Toast from "../components/Toast";
+import Loader from "../components/Loader";
 
 class Index extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class Index extends Component {
       isEditModalClicked: false,
       isDeleteModalClicked: false,
       isToastShown: false,
+      showLoader: true,
       toastContent: "",
     };
 
@@ -38,6 +40,7 @@ class Index extends Component {
 
     this.hideDeleteModal = this.hideDeleteModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
+    this.hideLoader = this.hideLoader.bind(this);
 
     this.addArticle = this.addArticle.bind(this);
     this.editArticle = this.editArticle.bind(this);
@@ -69,6 +72,10 @@ class Index extends Component {
     this.setState({ isDeleteModalClicked: false });
   }
 
+  hideLoader() {
+    this.setState({ showLoader: false });
+  }
+
   showToast(toastContent) {
     this.setState({ isToastShown: true, toastContent: toastContent });
     setTimeout(() => this.setState({ isToastShown: false }), 3000);
@@ -93,6 +100,7 @@ class Index extends Component {
           self.setState({
             articleList: data.articlesList,
             totalNumberOfArticles: data.numberOfArticles,
+            showLoader: false
           });
         });
       })
@@ -199,6 +207,7 @@ class Index extends Component {
     const isDeleteModalClicked = this.state.isDeleteModalClicked;
     const isAddModalClicked = this.state.isAddModalClicked;
     const isEditModalClicked = this.state.isEditModalClicked;
+    const showLoader = this.state.showLoader;
 
     let articles = articleList.map((article) => (
       <ArticlePreview
@@ -239,6 +248,11 @@ class Index extends Component {
       );
     }
 
+    let loader;
+    if (showLoader) {
+      loader = <Loader />
+    }
+
     return (
       <>
         <Toast
@@ -250,6 +264,7 @@ class Index extends Component {
         <ButtonModal openModal={this.openModal} />
         {addArticleModal}
         {deleteArticleModal}
+        {loader}
         {articles}
         <Footer
           loadNextPage={this.loadNextPage}
